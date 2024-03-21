@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Login with mongodb flask</title>
+    <link href="https://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active" style="margin-right: 20px;"><a href="/main">Home</a></li>
+                {% if username is defined %}
+                    <li role="presentation" style="margin-right: 20px;">Logged in {{ username }}</li>
+                    <li role="presentation"><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li role="presentation" style="margin-right: 20px;"><a href="/signin">Sign In</a></li>
+                    <li role="presentation"><a href="/signup">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <h3 class="text-muted">Login with mongodb flask</h3>
+    </div>
+
+    <div class="jumbotron">
+        <h1>M06: Acceso a Datos</h1>
+        <p class="lead"></p>
+        {% if username is defined %}
+            <li role="presentation"> Logged in {{ username }}<a href="/logout"> Logout</a>
+            </li>
+        {% else %}
+            <p><a class="btn btn-lg btn-success" href="signup" role="button">Sign up today</a>
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="row marketing">
+        <div class="col-lg-6">
+            <h4>Aprender Python</h4>
+            <p>Aprender a programar con Python y a gestionar la persistencia de datos</p>
+
+            <h4>Manejo de ficheros</h4>
+            <p>Saber como gestionar diferentes formatos de ficheros (csv, xml, json) desde un script python</p>
+
+            <h4>Bases de Datos Relacionales</h4>
+            <p>Aprender a acceder a diferentes BBDD como SQLite, MySQL o PostgreSQL.</p>
+        </div>
+
+        <div class="col-lg-6">
+            <h4>Bases de Datos NO Relacionales</h4>
+            <p>Aprender a manejar BBDD como MongoDB o ZODB</p>
+
+            <h4>Crear una API REST</h4>
+            <p>Aprender a crear una API con un framework como Flask</p>
+
+            <h4>Patrones de diseño y buenas prácticas</h4>
+            <p>Conocer el patrón DAO, diagramas de clase UML, pandas, Matplotlib, funcionamiento de la API de GPT, ...</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Monlau 2024</p>
+    </footer>
+</div>
+</body>
+
+</html>
