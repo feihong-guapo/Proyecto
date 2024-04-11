@@ -7,25 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class SellActivity extends AppCompatActivity {
-    private Button next;
+public class MainActivity5 extends AppCompatActivity {
+    private Button help;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sell);
-        next = findViewById(R.id.button9);
-        next.setOnClickListener(new View.OnClickListener(){
+        setContentView(R.layout.activity_main5);
+        help = findViewById(R.id.button8);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-
-                next();
+                help();
             }
         });
-
     }
-    public void next() {
-        Intent intent = new Intent(this,MainActivity5.class);
+    public void help(){
+        Intent intent = new Intent(this, Form1.class);
         startActivity(intent);
-        finish();
-
     }
 }
