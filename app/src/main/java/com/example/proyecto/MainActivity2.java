@@ -109,7 +109,7 @@ public class MainActivity2 extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String usuario = params[0];
             String contrasena = params[1];
-            String url = "http://10.0.2.2/validacuenta.php"; // Reemplaza esto con la URL de tu archivo PHP
+            String url = "http://10.0.2.2/validacuenta.php";
             String resultado = null;
             try {
                 URL direccion = new URL(url);
