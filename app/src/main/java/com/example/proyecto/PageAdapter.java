@@ -19,7 +19,11 @@ public class PageAdapter extends RecyclerView.Adapter<PageAdapter.PageViewHolder
         mContext = context;
         mLayouts = layouts;
     }
-
+    public void updateData(List<Integer> newData) {
+        mLayouts.clear();
+        mLayouts.addAll(newData);
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public PageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

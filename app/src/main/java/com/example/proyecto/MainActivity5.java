@@ -28,8 +28,8 @@ public class MainActivity5 extends AppCompatActivity {
         });
     }
     public void help(){
-        Intent intent = new Intent(this, Form1.class);
-        intent.putExtra("form1Added", true);
+        Intent intent = new Intent(this, empty_activity.class);
+       // intent.putExtra("form1Added", true);
         startActivity(intent);
 
     }

@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup4"
         app:srcCompat="@drawable/group_1026__4_" />
 
     <ImageView
@@ -39,7 +39,7 @@
         app:srcCompat="@drawable/group_1028" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radioGroup6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.875">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButton16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="  2 plazas"
@@ -65,7 +65,7 @@
             android:layout_height="16dp" />
 
         <RadioButton
-            android:id="@+id/radioButton1"
+            android:id="@+id/radioButton17"
             android:layout_width="178dp"
             android:layout_height="48dp"
             android:text="  5 plazas"
@@ -80,7 +80,7 @@
             android:layout_height="16dp" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButton18"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="  7 plazas o más"
