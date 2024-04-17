@@ -17,6 +17,9 @@
             android:name=".empty_activity"
             android:exported="false" />
         <activity
+            android:name=".empty_activity"
+            android:exported="false" />
+        <activity
             android:name=".Form10"
             android:exported="false" />
         <activity
