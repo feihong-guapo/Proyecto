@@ -31,11 +31,6 @@ public class empty_activity extends AppCompatActivity {
         newLayouts.add(R.layout.activity_form2);
         newLayouts.add(R.layout.activity_form3);
         newLayouts.add(R.layout.activity_form4);
-        newLayouts.add(R.layout.activity_form6);
-        newLayouts.add(R.layout.activity_form7);
-        newLayouts.add(R.layout.activity_form9);
-        newLayouts.add(R.layout.activity_form8);
-        newLayouts.add(R.layout.activity_form10);
         // Crear una instancia de PageAdapter y pasar el contexto y la lista de diseños
         mAdapter = new PageAdapter(this, newLayouts);
 
@@ -49,6 +44,7 @@ public class empty_activity extends AppCompatActivity {
 
         // Registrar un listener para detectar cambios en el RadioButton
         yes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            //Verificar si este es el disparador que tenemos que usar o no. -----
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Verificar si el RadioButton está seleccionado
@@ -64,6 +60,11 @@ public class empty_activity extends AppCompatActivity {
                     mAdapter.updateData(newLayouts);
                     Toast.makeText(getApplicationContext(), "RadioButton está seleccionado", Toast.LENGTH_SHORT).show();
                 } else {
+                    newLayouts.add(R.layout.activity_form6);
+                    newLayouts.add(R.layout.activity_form7);
+                    newLayouts.add(R.layout.activity_form9);
+                    newLayouts.add(R.layout.activity_form8);
+                    newLayouts.add(R.layout.activity_form10);
                     // Si no está seleccionado, no necesitas hacer nada específico
                     // ya que el ViewPager2 ya está configurado con los primeros layouts
                     Toast.makeText(getApplicationContext(), "RadioButton no está seleccionado", Toast.LENGTH_SHORT).show();

@@ -32,6 +32,8 @@ public class Form1 extends AppCompatActivity {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_form1);
 //
+
+
 //        // Agregar los layouts de los formularios 2 y 3
 //        mLayouts.add(R.layout.activity_form2);
 //        mLayouts.add(R.layout.activity_form3);
