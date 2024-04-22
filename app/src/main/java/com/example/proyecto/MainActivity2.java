@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.proyecto.model.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,9 +44,9 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void signingup() {
         if(username.getText().toString().equals("") || password.getText().toString().equals("")){
-            Toast.makeText(MainActivity2.this,"You have not entered one of the credentials required to LOGIN", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity2.this,"No has introducido uno de los datos necesarios para INICIAR SESIÓN", Toast.LENGTH_LONG).show();
         } else if(!verifyUsername(username.getText().toString())) {
-            Toast.makeText(MainActivity2.this,"The username has incorrect characters. Session denied.", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity2.this,"El nombre de usuario tiene caracteres incorrectos. Sesión denegada.", Toast.LENGTH_LONG).show();
         } else {
             JSONObject params = new JSONObject();
             try {
@@ -53,25 +55,17 @@ public class MainActivity2 extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            new ValidateUserTask().execute(params);
+            new ValidateUserTask().execute(params); // Pasa el JSON como parámetro
         }
     }
 
+
     public static boolean verifyUsername(String word){
-        String regex = "^[a-zA-Z0-9]+$";
+        String regex = "^[a-zA-Z0-9_]+$";
         return word.matches(regex);
     }
 
-    private void openNewActivity(String validUser) {
-        if (validUser.equals("OK")) {
-            Toast.makeText(MainActivity2.this,"Logged in", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, MainActivity4.class);
-            startActivity(intent);
-            finish();
-        } else if(validUser.equals("KO")){
-            Toast.makeText(MainActivity2.this,"Incorrect credentials. Session denied.", Toast.LENGTH_LONG).show();
-        }
-    }
+
 
     private class ValidateUserTask extends AsyncTask<JSONObject, Void, JSONObject> {
         @Override
@@ -114,6 +108,8 @@ public class MainActivity2 extends AppCompatActivity {
             return response;
         }
 
+
+
         @Override
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
@@ -121,12 +117,19 @@ public class MainActivity2 extends AppCompatActivity {
                 try {
                     String status = result.getString("status");
 
-                    if (status.equals("Ok")){}
+                    if (status.equals("OK")){
+                    User user = new User();
+                    JSONObject data = (JSONObject) result.get("data");
+                    user.setUserData(data);
+                        Intent intent = new Intent(MainActivity2.this, BuyActivity.class);
+                        intent.putExtra("usuario", user);
+                        startActivity(intent);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
-                // Manejo de errores
+
             }
         }
     }

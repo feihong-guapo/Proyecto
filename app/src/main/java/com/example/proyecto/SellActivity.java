@@ -118,8 +118,18 @@ public class SellActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (result != null) {
-                // Do something with the server response
-                Toast.makeText(SellActivity.this, result, Toast.LENGTH_LONG).show();
+                {
+                    if (result.equals("KO")){
+                        Toast.makeText(SellActivity.this, "Error occurred", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+
+                        Toast.makeText(SellActivity.this, "Registrado correctamente", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SellActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
             } else {
                 // Handle error if any
                 Toast.makeText(SellActivity.this, "Error occurred", Toast.LENGTH_LONG).show();
