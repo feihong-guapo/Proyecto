@@ -136,4 +136,34 @@ public class User implements Serializable {
         return jsonParams.toString();
 
     }
+    public void setUserData(JSONObject json) throws JSONException {
+
+        this.nombre = json.getString("nombre");
+        this.apellidos= json.getString("apellidos");
+        this.user_id = json.getInt("user_id");
+        this.email = json.getString("email");
+        this.edad = json.getInt("edad");
+        this.telefono = json.getString("telefono");
+        this.ciudad = json.getString("ciudad");
+        this.direccion = json.getString("direccion");
+        this.username = json.getString("username");
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", password='" + password + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", email='" + email + '\'' +
+                ", account_type='" + account_type + '\'' +
+                ", verified=" + verified +
+                ", edad=" + edad +
+                ", telefono='" + telefono + '\'' +
+                ", ciudad='" + ciudad + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }
