@@ -78,7 +78,7 @@ public class MainActivity2 extends AppCompatActivity {
         //6. If the user has his credentials registered in the database we login to the layout ok.
         if (validUser.equals("ok")) {
             Toast.makeText(MainActivity2.this,"Logged in", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, MainActivity4.class);
+            Intent intent = new Intent(this, Menu.class);
             startActivity(intent);
             finish();
             //7. If not we will go to the layout ko.

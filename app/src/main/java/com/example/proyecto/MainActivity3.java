@@ -45,9 +45,9 @@ public class MainActivity3 extends AppCompatActivity {
     }
 
     public void signingup() {
-        //Intent intent = new Intent(this,HomeActivity.class);
-        //startActivity(intent);
-        //finish();
+        Intent intent = new Intent(this,SellActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 
