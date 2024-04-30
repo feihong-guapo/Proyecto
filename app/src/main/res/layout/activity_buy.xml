@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.821" />
-<<<<<<< HEAD
+
 
     <TextView
         android:id="@+id/textView20"
@@ -28,6 +28,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-=======
->>>>>>> e5d965c (Login)
+
 </androidx.constraintlayout.widget.ConstraintLayout>
