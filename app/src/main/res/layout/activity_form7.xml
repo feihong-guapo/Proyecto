@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup4"
         app:srcCompat="@drawable/group_1026__5_" />
 
     <ImageView
@@ -39,7 +39,7 @@
         app:srcCompat="@drawable/image_62" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radioGroup7"
         android:layout_width="259dp"
         android:layout_height="245dp"
         android:orientation="vertical"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.875">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioButton19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="  Suelo usarlo por ciudad"
@@ -65,7 +65,7 @@
             android:layout_height="16dp" />
 
         <RadioButton
-            android:id="@+id/radioButton1"
+            android:id="@+id/radioButton20"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="  Suelo ir por ciudad y autopista"
@@ -80,7 +80,7 @@
             android:layout_height="16dp" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioButton21"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="  Suelo ir por carretera de montaña"
@@ -95,7 +95,7 @@
             android:layout_height="16dp" />
 
         <RadioButton
-            android:id="@+id/radioButton4"
+            android:id="@+id/radioButton22"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="  Suelo ir por todo tipo de carretera"

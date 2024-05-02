@@ -53,7 +53,7 @@ public class MainActivity3 extends AppCompatActivity {
                 }else if(password.getText().toString().length() > 15) {
                     Toast.makeText(MainActivity3.this, "Password is too long. Session denied.", Toast.LENGTH_LONG).show();
                 }else{
-                        nextPage();
+                    nextPage();
                 }
 
 
@@ -63,7 +63,7 @@ public class MainActivity3 extends AppCompatActivity {
 
 
     public void nextPage() {
-    User user = new User();
+        User user = new User();
         String emai1l = email.getText().toString();
         String user1 = username.getText().toString();
         String pass = password.getText().toString();

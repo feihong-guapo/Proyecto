@@ -118,10 +118,10 @@ public class MainActivity2 extends AppCompatActivity {
                     String status = result.getString("status");
 
                     if (status.equals("OK")){
-                    User user = new User();
-                    JSONObject data = (JSONObject) result.get("data");
-                    user.setUserData(data);
-                        Intent intent = new Intent(MainActivity2.this, BuyActivity.class);
+                        User user = new User();
+                        JSONObject data = (JSONObject) result.get("data");
+                        user.setUserData(data);
+                        Intent intent = new Intent(MainActivity2.this, Menu.class);
                         intent.putExtra("usuario", user);
                         startActivity(intent);
                     }
