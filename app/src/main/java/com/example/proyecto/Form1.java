@@ -12,8 +12,6 @@ import java.util.List;
 
 public class Form1 extends AppCompatActivity {
 
-    private ViewPager2 mViewPager;
-    private List<Integer> mLayouts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
