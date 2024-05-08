@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.proyecto.databinding.ActivityAtencioncliente2Binding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class Menu extends AppCompatActivity {
     private BottomNavigationView bottomNav;
@@ -28,7 +30,20 @@ public class Menu extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
 
+        Button soppButton = findViewById(R.id.bottomSopp);
+        soppButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Menu.this, ActivityAtencioncliente2Binding.class );
+                startActivity(intent);
+
+
+            }
+        });
+
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
