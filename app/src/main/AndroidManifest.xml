@@ -19,12 +19,13 @@
         <activity
             android:name=".Lista_Vista"
             android:exported="false" />
-        <activity
-            android:name=".Menu"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Menu"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".empty_activity"
             android:exported="false" />
+
         <activity
             android:name=".Form10"
             android:exported="false" />
@@ -73,8 +74,9 @@
         <activity
             android:name=".MainActivity2"
             android:exported="false" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".Menu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

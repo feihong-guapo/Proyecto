@@ -166,4 +166,8 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 '}';
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
