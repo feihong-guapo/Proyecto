@@ -68,8 +68,12 @@
         android:layout_width="107dp"
         android:layout_height="29dp"
         android:text="precio"
-        tools:layout_editor_absoluteX="278dp"
-        tools:layout_editor_absoluteY="318dp" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
 
     <Button
         android:id="@+id/button15"
@@ -88,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="505dp" />
+        app:layout_constraintGuide_end="226dp" />
 
     <TextView
         android:id="@+id/textView23"
@@ -103,8 +107,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="plazas"
-        tools:layout_editor_absoluteX="185dp"
-        tools:layout_editor_absoluteY="400dp" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:layout_editor_absoluteX="185dp" />
 
     <TextView
         android:id="@+id/textView25"
