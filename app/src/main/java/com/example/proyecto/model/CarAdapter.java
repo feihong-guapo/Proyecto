@@ -28,11 +28,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder>{
     @Override
     public void onBindViewHolder(CarViewHolder holder, int position) {
         Car car = carList.get(position);
-        holder.carName.setText(car.getName());
-        holder.carImage.setImageResource(car.getImageResource());
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(car.getUrl()));
-            context.startActivity(intent);
+            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(//car.getUrl()));
+            //context.startActivity(intent);
         });
     }
 

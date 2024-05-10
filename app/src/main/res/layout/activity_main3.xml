@@ -21,19 +21,11 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:layout_marginTop="204dp"
+        android:layout_marginTop="180dp"
         android:text="Email"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
-=======
-        android:layout_marginTop="208dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.135"
->>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
+        app:layout_constraintHorizontal_bias="0.143"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.855" />
@@ -42,13 +34,13 @@
         android:id="@+id/editTextText3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="176dp"
+        android:layout_marginTop="156dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.841" />
@@ -60,14 +52,10 @@
         android:text="Username"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.155"
-=======
-        app:layout_constraintHorizontal_bias="0.135"
->>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
+        app:layout_constraintVertical_bias="0.801" />
 
     <EditText
         android:id="@+id/editTextText4"
@@ -78,7 +66,7 @@
         android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.796"
+        app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.816" />
@@ -108,10 +96,9 @@
         android:text="Contraseña"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.135" />
 
     <TextView
@@ -126,9 +113,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="0.024" />
-=======
-        app:layout_constraintVertical_bias="0.106" />
->>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -156,9 +140,5 @@
         app:layout_constraintHorizontal_bias="0.796"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"
-<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.0" />
-=======
-        app:layout_constraintVertical_bias="0.056" />
->>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
 </androidx.constraintlayout.widget.ConstraintLayout>
