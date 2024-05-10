@@ -14,21 +14,50 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.example.proyecto.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class Menu extends AppCompatActivity {
     private BottomNavigationView bottomNav;
 
+    private User user;
+    private ImageButton btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+        btn = findViewById(R.id.imageButton);
+        bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
+        Intent intent = getIntent();
+        if (intent != null){
+            user = (User) intent.getSerializableExtra("usuario");
+            if (user != null ){
+                // Do something with the user object if needed
+            }
+        }
 
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                assitencia();
+
+
+            }
+        });
     }
+
+
+
+    private void assitencia(){
+        Intent intent = new Intent(this, atencioncliente2.class);
+        intent.putExtra("usuario", user);
+        startActivity(intent);
+    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,8 +75,11 @@ public class Menu extends AppCompatActivity {
                     } else if (item.getItemId() == R.id.miHome){
                         selectedFragment = new MenuFragment();
                     }
-
-
+                    if (user != null && selectedFragment != null) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("usuario", user);
+                        selectedFragment.setArguments(bundle);
+                    }
                     getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
                             selectedFragment).commit();
 

@@ -11,6 +11,9 @@
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
         <activity
+            android:name=".atencioncliente2"
+            android:exported="false" />
+        <activity
             android:name=".PreMercado"
             android:exported="false" />
         <activity

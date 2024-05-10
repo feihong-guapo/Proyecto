@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.proyecto.model.User;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,6 +29,7 @@ public class MainActivity3 extends AppCompatActivity {
     private EditText username;
 
     private EditText password;
+    private EditText confPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,59 +38,46 @@ public class MainActivity3 extends AppCompatActivity {
         signup = findViewById(R.id.button4);
         email = findViewById(R.id.editTextText3);
         username = findViewById(R.id.editTextText4);
-        password = findViewById(R.id.editTextText5);
+        password = findViewById(R.id.editTextTextPassword2);
+        confPassword = findViewById(R.id.editTextTextPassword);
         signup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 signingup();
-                registUser();
+
             }
         });
     }
 
     public void signingup() {
-        Intent intent = new Intent(this,SellActivity.class);
-        startActivity(intent);
-        finish();
+        if (!(confPassword.getText().toString().equals(password.getText().toString()))){
+            Toast.makeText(MainActivity3.this, "ambas contraseñas deben coincidir", Toast.LENGTH_LONG).show();
+
+        }else if(password.getText().toString().length() <= 3){
+            Toast.makeText(MainActivity3.this,"Password is too short. Session denied.", Toast.LENGTH_LONG).show();
+        }else if(password.getText().toString().length() > 15) {
+            Toast.makeText(MainActivity3.this, "Password is too long. Session denied.", Toast.LENGTH_LONG).show();
+        }else{
+            nextPage();
+        }
 
     }
 
-    private void registUser() {
+    public void nextPage() {
+        User user = new User();
         String emai1l = email.getText().toString();
         String user1 = username.getText().toString();
         String pass = password.getText().toString();
-        try {
-            URL url = new URL("https://10.0.0.2/insertacuenta.php");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
+        try{
+            user.setEmail(emai1l);
+            user.setUsername(user1);
+            user.setPassword(pass);
+            Intent intent = new Intent(MainActivity3.this, SellActivity.class);
+            intent.putExtra("usuario", user);
+            startActivity(intent);
+        }catch (Exception e){
 
-            // Envía los datos al servidor
-            OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            String datos = URLEncoder.encode("usuario", "UTF-8") + "=" + URLEncoder.encode(user1, "UTF-8") + "&" +
-                    URLEncoder.encode("contrasena", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8") + "&" +
-                    URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(emai1l, "UTF-8");
-            writer.write(datos);
-            writer.flush();
-            writer.close();
-            os.close();
-
-            // Lee la respuesta del servidor
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String respuesta = "";
-            String line;
-            while ((line = br.readLine()) != null) {
-                respuesta += line;
-            }
-            br.close();
-
-            // Hacer algo con la respuesta del servidor (por ejemplo, mostrar un mensaje)
-            Log.d("Respuesta del servidor", respuesta);
-
-            conn.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
     }
 }

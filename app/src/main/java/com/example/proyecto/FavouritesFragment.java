@@ -24,28 +24,10 @@ public class FavouritesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favourites, container, false);
 
         // Buscar el BottomNavigationView dentro de la vista inflada del fragmento
-        bottomNav = view.findViewById(R.id.bottomNavigationView1);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
 
         return view;
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-                    if (item.getItemId() == R.id.miFav) {
-                        selectedFragment = new ShowFavourites();
-                    } else if (item.getItemId() == R.id.miLists) {
-                        selectedFragment = new ShowLists();
-                    }
-
-                    // Reemplazar el fragmento actual con el fragmento seleccionado
-                    getParentFragmentManager().beginTransaction().replace(R.id.flFragment1,
-                            selectedFragment).commit();
-
-                    return true;
-                }
-            };
 }
+
+

@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.proyecto.model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -42,7 +46,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         login = findViewById(R.id.button3);
         username = findViewById(R.id.editTextText);
-        password = findViewById(R.id.editTextText2);
+        password = findViewById(R.id.editTextTextPassword3);
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
 
@@ -60,7 +64,14 @@ public class MainActivity2 extends AppCompatActivity {
         }else if(verifyUsername(username.getText().toString()) == false){
             Toast.makeText(MainActivity2.this,"The username has incorrect characters. Session denied.", Toast.LENGTH_LONG).show();
         }else {
-            new ValidateUserTask().execute(username.getText().toString(), password.getText().toString());
+            JSONObject params = new JSONObject();
+            try {
+                params.put("usuario", username.getText().toString());
+                params.put("contrasena", password.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            new ValidateUserTask().execute(params); // Pasa el JSON como parámetro
         }
 
     }
@@ -74,81 +85,70 @@ public class MainActivity2 extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private void openNewActivity(String validUser) {
-        //6. If the user has his credentials registered in the database we login to the layout ok.
-        if (validUser.equals("ok")) {
-            Toast.makeText(MainActivity2.this,"Logged in", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, Menu.class);
-            startActivity(intent);
-            finish();
-            //7. If not we will go to the layout ko.
-        } else if(validUser.equals("ko")){
-            Toast.makeText(MainActivity2.this,"Incorrect credentials. Session denied.", Toast.LENGTH_LONG).show();
-        }
-    }
-    //9. This function is used to convert a string to an xml document
-    private static Document StringtoXMLDocumentTransformer(String xmlString)
-    {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        try
-        {
-            builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    //10. And here we will establish the function necessary to prove that the user has his credentials registered calling the php validatecount.
-    private class ValidateUserTask extends AsyncTask<String, Void, String> {
+
+
+    private class ValidateUserTask extends AsyncTask<JSONObject, Void, JSONObject> {
         @Override
-        protected String doInBackground(String... params) {
-            String usuario = params[0];
-            String contrasena = params[1];
-            String url = "http://10.0.2.2/validacuenta.php";
-            String resultado = null;
+        protected JSONObject doInBackground(JSONObject... jsonObjects) {
+            JSONObject response = null;
             try {
-                URL direccion = new URL(url);
-                HttpURLConnection conexion = (HttpURLConnection) direccion.openConnection();
-                conexion.setRequestMethod("POST");
-                conexion.setDoOutput(true);
-                String datos = "usuario=" + usuario + "&contrasena=" + contrasena;
-                OutputStream salida = conexion.getOutputStream();
-                byte[] bytes = datos.getBytes(StandardCharsets.UTF_8);
-                salida.write(bytes);
-                salida.flush();
-                salida.close();
-                InputStream entrada = conexion.getInputStream();
-                BufferedReader lector = new BufferedReader(new InputStreamReader(entrada));
-                StringBuilder respuesta = new StringBuilder();
-                String linea;
-                while ((linea = lector.readLine()) != null) {
-                    respuesta.append(linea);
+                JSONObject params = jsonObjects[0];
+                String url = "http://20.90.95.76/loginproj.php";
+                URL apiUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(params.toString().getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = connection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                    StringBuilder responseBuilder = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        responseBuilder.append(line);
+                    }
+                    inputStream.close();
+
+                    String jsonString = responseBuilder.toString();
+                    response = new JSONObject(jsonString);
+                } else {
+                    // Manejo de errores
                 }
-                entrada.close();
-                conexion.disconnect();
-                resultado = respuesta.toString();
+                connection.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            return resultado;
+            return response;
         }
-        //10.On the postExecute we will prove what activity we wil open.
+
         @Override
-        protected void onPostExecute(String resultado) {
-            super.onPostExecute(resultado);
-            Document doc = StringtoXMLDocumentTransformer(resultado);
-            NodeList listaItem = (NodeList) doc.getElementsByTagName("respuesta");
-            Element element = (Element) listaItem.item(0);
-            String var_id = element.getElementsByTagName("estado").item(0).getTextContent();
+        protected void onPostExecute(JSONObject result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                try {
+                    String status = result.getString("status");
 
-
-            openNewActivity(var_id);
+                    if (status.equals("OK")){
+                        User user = new User();
+                        JSONObject data = (JSONObject) result.get("data");
+                        user.setUserData(data);
+                        Intent intent = new Intent(MainActivity2.this, Menu.class);
+                        intent.putExtra("usuario", user);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(MainActivity2.this,"Incorrect credentials. Session denied.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
