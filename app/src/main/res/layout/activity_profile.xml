@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gravity="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <LinearLayout
@@ -10,13 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/download" />
 
         <Button
             android:id="@+id/change_photo_button"
@@ -66,6 +60,14 @@
             android:hint="Tu Código Postal" />
 
         <!-- Session Management Section -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="86dp"
+            android:layout_height="101dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside"
+            android:src="@drawable/download" />
+
         <Button
             android:id="@+id/change_password_button"
             android:layout_width="match_parent"

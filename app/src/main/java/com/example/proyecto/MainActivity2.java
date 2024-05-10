@@ -73,7 +73,7 @@ public class MainActivity2 extends AppCompatActivity {
             JSONObject response = null;
             try {
                 JSONObject params = jsonObjects[0];
-                String url = "http://20.90.95.76/loginproj.php";
+                String url = "http://20.90.95.76/pruebaLogin.php";
                 URL apiUrl = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
                 connection.setRequestMethod("POST");

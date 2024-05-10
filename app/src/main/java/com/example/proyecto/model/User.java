@@ -19,6 +19,9 @@ public class User implements Serializable {
     private String direccion;
     private String username;
 
+    private String rutaImg;
+
+
     public User(){
 
     }
@@ -119,6 +122,14 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public String getRutaImg() {
+        return rutaImg;
+    }
+
+    public void setRutaImg(String rutaImg) {
+        this.rutaImg = rutaImg;
+    }
+
     public String getjSonparamsReg() throws JSONException {
         JSONObject jsonParams = new JSONObject();
         jsonParams.put("password",this.password);
@@ -147,6 +158,7 @@ public class User implements Serializable {
         this.ciudad = json.getString("ciudad");
         this.direccion = json.getString("direccion");
         this.username = json.getString("username");
+        this.rutaImg = json.getString("prof_route");
     }
 
     @Override
