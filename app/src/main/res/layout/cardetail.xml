@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.4" />
 
     <TextView
-        android:id="@+id/modelNameTextView"
+        android:id="@+id/brandTextView"
         android:layout_width="107dp"
         android:layout_height="31dp"
         android:layout_marginTop="32dp"

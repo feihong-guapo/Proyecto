@@ -3,7 +3,9 @@ package com.example.proyecto.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Motor {
+import java.io.Serializable;
+
+public class Motor implements Serializable {
     private String tipo;
     private String transmision1;
     private String transmision2;
@@ -95,16 +97,19 @@ public class Motor {
         this.consumoElectricoMaxKw = consumoElectricoMaxKw;
     }
     public void setData(JSONObject motorJson) throws JSONException {
-        this.tipo=motorJson.getString("tipo");
-        this.transmision1= motorJson.getString("transmision1");
-        this.transmision2=  motorJson.getString("transmision2");
-        this.transmision3=  motorJson.getString("transmision3");
-        this.combustible = motorJson.getString("combustible");
-        this.consumo = motorJson.getString("consumo");
-        this.consumoMixtoMinL=motorJson.getDouble("consumo_mixto_min_l");
-        this.consumoMixtoMaxL=motorJson.getDouble("consumo_mixto_max_l");
-        this.consumoElectricoMinKw= motorJson.getDouble("consumo_electrico_min_kw");
-        this.consumoElectricoMaxKw= motorJson.getDouble("consumo_electrico_max_kw");
+
+            this.tipo = motorJson.optString("tipo", null);
+            this.transmision1 = motorJson.optString("transmision1", null);
+            this.transmision2 = motorJson.optString("transmision2", null);
+            this.transmision3 = motorJson.optString("transmision3", null);
+            this.combustible = motorJson.optString("combustible", null);
+            this.consumo = motorJson.optString("consumo", null);
+            this.consumoMixtoMinL = motorJson.optDouble("consumo_mixto_min_l");
+            this.consumoMixtoMaxL = motorJson.optDouble("consumo_mixto_max_l");
+            this.consumoElectricoMinKw = motorJson.optDouble("consumo_electrico_min_kw");
+            this.consumoElectricoMaxKw = motorJson.optDouble("consumo_electrico_max_kw");
+        }
+
     }
-    }
+
 

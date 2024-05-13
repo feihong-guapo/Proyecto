@@ -126,16 +126,19 @@ public class Coche implements Serializable {
 
 
     public void setDataJson(JSONObject json) throws JSONException {
-        this.modelo=json.getString("modelo");
-        this.marca= json.getString("nombre_marca");
-        this.tipoCoche=  json.getString("tipo_coche");
-        this.plazas=  json.getInt("plazas");
-        this.puertas = json.getInt("puertas");
-        this.traccion = json.getString("traccion");
-        this.enchufable=json.getString("enchufable");
-        this.anchoCm=json.getDouble("ancho_cm");
-        this.longitudCm= json.getDouble("longitud_cm");
-        this.maleteroL= json.getDouble("maletero_l");
-        this.precioEuros = json.getDouble("precio_euros");
+        this.modelo = json.optString("modelo", null);
+        this.marca = json.optString("nombre_marca", null);
+        this.tipoCoche = json.optString("tipo_coche", null);
+        this.plazas = json.optInt("plazas");
+        this.puertas = json.optInt("puertas");
+        this.traccion = json.optString("traccion", null);
+        this.enchufable = json.optString("enchufable", null);
+        this.anchoCm = json.optDouble("ancho_cm");
+        this.longitudCm = json.optDouble("longitud_cm");
+        this.maleteroL = json.optDouble("maletero_l");
+        this.precioEuros = json.optDouble("precio_euros");
+
+        this.motor = new Motor();
+        this.motor.setData(json.getJSONObject("motor"));
     }
 }
