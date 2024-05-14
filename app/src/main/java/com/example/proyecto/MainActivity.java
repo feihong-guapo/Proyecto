@@ -33,7 +33,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void login() {
+<<<<<<< HEAD
         Intent intent = new Intent(this, MainActivity2.class);
+=======
+        Intent intent = new Intent(this,MainActivity2.class);
+>>>>>>> registro
         startActivity(intent);
         finish();
 

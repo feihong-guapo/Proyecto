@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -39,6 +38,9 @@ android {
 dependencies {
     implementation("com.google.android.material:material:1.2.0-alpha04")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+}
+
+dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -47,6 +49,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.navigation:navigation-fragment:2.5.3")
     implementation("androidx.navigation:navigation-ui:2.5.3")
+    implementation("androidx.navigation:navigation-fragment:2.7.7")
+    implementation("androidx.navigation:navigation-ui:2.7.7")
 
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
@@ -54,8 +58,6 @@ dependencies {
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.cardview:cardview:1.0.0")
-
-    //firebase
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation("com.google.firebase:firebase-analytics")

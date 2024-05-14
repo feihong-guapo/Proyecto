@@ -14,15 +14,19 @@ import com.example.proyecto.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+<<<<<<< HEAD
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+=======
+>>>>>>> registro
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+<<<<<<< HEAD
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -38,6 +42,15 @@ public class MainActivity2 extends AppCompatActivity {
 
     private EditText username;
 
+=======
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+
+public class MainActivity2 extends AppCompatActivity {
+    private Button login;
+    private EditText username;
+>>>>>>> registro
     private EditText password;
 
     @Override
@@ -49,11 +62,15 @@ public class MainActivity2 extends AppCompatActivity {
         password = findViewById(R.id.editTextTextPassword3);
         login.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> registro
                 signingup();
             }
         });
     }
+<<<<<<< HEAD
     public void signingup() {
         if(username.getText().toString().equals("") || password.getText().toString().equals("")){
             Toast.makeText(MainActivity2.this,"You have not entered one of the credentials required to LOGIN", Toast.LENGTH_LONG).show();
@@ -64,6 +81,15 @@ public class MainActivity2 extends AppCompatActivity {
         }else if(verifyUsername(username.getText().toString()) == false){
             Toast.makeText(MainActivity2.this,"The username has incorrect characters. Session denied.", Toast.LENGTH_LONG).show();
         }else {
+=======
+
+    public void signingup() {
+        if(username.getText().toString().equals("") || password.getText().toString().equals("")){
+            Toast.makeText(MainActivity2.this,"No has introducido uno de los datos necesarios para INICIAR SESIÓN", Toast.LENGTH_LONG).show();
+        } else if(!verifyUsername(username.getText().toString())) {
+            Toast.makeText(MainActivity2.this,"El nombre de usuario tiene caracteres incorrectos. Sesión denegada.", Toast.LENGTH_LONG).show();
+        } else {
+>>>>>>> registro
             JSONObject params = new JSONObject();
             try {
                 params.put("usuario", username.getText().toString());
@@ -73,6 +99,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
             new ValidateUserTask().execute(params); // Pasa el JSON como parámetro
         }
+<<<<<<< HEAD
 
     }
     public static boolean verifyUsername(String word){
@@ -83,6 +110,14 @@ public class MainActivity2 extends AppCompatActivity {
         Matcher matcher = pattern.matcher(word);
 
         return matcher.matches();
+=======
+    }
+
+
+    public static boolean verifyUsername(String word){
+        String regex = "^[a-zA-Z0-9_]+$";
+        return word.matches(regex);
+>>>>>>> registro
     }
 
 
@@ -93,7 +128,11 @@ public class MainActivity2 extends AppCompatActivity {
             JSONObject response = null;
             try {
                 JSONObject params = jsonObjects[0];
+<<<<<<< HEAD
                 String url = "http://20.90.95.76/loginproj.php";
+=======
+                String url = "http://20.90.95.76/pruebaLogin.php";
+>>>>>>> registro
                 URL apiUrl = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
                 connection.setRequestMethod("POST");
@@ -128,6 +167,11 @@ public class MainActivity2 extends AppCompatActivity {
             return response;
         }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> registro
         @Override
         protected void onPostExecute(JSONObject result) {
             super.onPostExecute(result);
@@ -147,8 +191,16 @@ public class MainActivity2 extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else {
+<<<<<<< HEAD
                 Toast.makeText(MainActivity2.this,"Incorrect credentials. Session denied.", Toast.LENGTH_LONG).show();
             }
         }
     }
 }
+=======
+
+            }
+        }
+    }
+}
+>>>>>>> registro

@@ -1,17 +1,30 @@
 package com.example.proyecto;
 
 import android.content.Intent;
+<<<<<<< HEAD
+=======
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+>>>>>>> registro
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+<<<<<<< HEAD
+=======
+import android.util.Base64;
+>>>>>>> registro
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+<<<<<<< HEAD
 import android.widget.ImageButton;
+=======
+import android.widget.ImageView;
+>>>>>>> registro
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+<<<<<<< HEAD
+=======
+import java.io.BufferedWriter;
+>>>>>>> registro
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -40,10 +57,21 @@ public class ProfileFragment extends Fragment {
 
     private TextView codigoPos;
 
+<<<<<<< HEAD
+=======
+    private ImageView profPh;
+
+>>>>>>> registro
     private Button changePhoto;
 
 
     private Button updateUser;
+<<<<<<< HEAD
+=======
+
+    private String b64Ph;
+
+>>>>>>> registro
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +84,11 @@ public class ProfileFragment extends Fragment {
         apellidos = rootView.findViewById(R.id.last_name);
         codigoPos = rootView.findViewById(R.id.postal_code);
         updateUser = rootView.findViewById(R.id.change_password_button);
+<<<<<<< HEAD
+=======
+        changePhoto = rootView.findViewById(R.id.change_photo_button);
+        profPh = rootView.findViewById(R.id.profile_image);
+>>>>>>> registro
         Bundle bundle = getArguments();
         if (bundle != null) {
             user = (User) bundle.getSerializable("usuario");
@@ -66,11 +99,21 @@ public class ProfileFragment extends Fragment {
                     nombre.setText(user.getNombre());
                     apellidos.setText(user.getApellidos());
                     codigoPos.setText(user.getCiudad());
+<<<<<<< HEAD
+=======
+                    String ruta = user.getRutaImg();
+                    new getProfImg().execute(user.getUser_id());
+
+>>>>>>> registro
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> registro
         }
         // Configurar el evento onClick para el botón de actualizar usuario
         updateUser.setOnClickListener(new View.OnClickListener() {
@@ -80,11 +123,32 @@ public class ProfileFragment extends Fragment {
                 updateUser();
             }
         });
+<<<<<<< HEAD
+=======
+        changePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               see_photos();
+
+            }
+        });
+
+>>>>>>> registro
         return rootView;
 
 
 
     }
+<<<<<<< HEAD
+=======
+    public void see_photos(){
+
+        Intent intent;
+        intent = new Intent(this.getContext(), MainActivity6.class);
+        intent.putExtra("usuario", user);
+        startActivity(intent);
+    }
+>>>>>>> registro
 
     public void updateUser(){
         JSONObject json = new JSONObject();
@@ -95,6 +159,10 @@ public class ProfileFragment extends Fragment {
             json.put("telefono", tlf.getText().toString());
             json.put("ciudad", codigoPos.getText().toString());
             json.put("id_usuario", user.getUser_id());
+<<<<<<< HEAD
+=======
+            new InsertDataTask().execute(json);
+>>>>>>> registro
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -155,6 +223,76 @@ public class ProfileFragment extends Fragment {
         }
 
     }
+<<<<<<< HEAD
+=======
+    private class getProfImg extends AsyncTask<Integer, Void, String> {
+        @Override
+        protected String doInBackground(Integer... users) {
+            Integer inc = users[0];
+            try {
+                // Create the URL connection
+                URL url = new URL("http://20.90.95.76/getProfPh.php?id=" + inc); // Reemplaza con la URL real de tu servidor
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setDoOutput(true);
+
+                // Create JSON object
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("usuario", inc); // Suponiendo que aquí pasas el usuario como parámetro
+
+                // Send JSON data to the server
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(jsonParam.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                // Read the server response
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
+                }
+                br.close();
+
+                conn.disconnect();
+
+                // Parse the JSON response to get imgCod
+                JSONObject jsonResponse = new JSONObject(response.toString());
+                String imgCod = (String) jsonResponse.get("imgCod");
+                return imgCod;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null && !result.isEmpty()) {
+                try {
+                    byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    profPh.setImageBitmap(bitmap);
+                } catch (IllegalArgumentException e) {
+                    // Handle error if the Base64 string is invalid
+                    Toast.makeText(getContext(), "Invalid Base64 string", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            } else {
+                // Handle error if the result is null or empty
+                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+
+>>>>>>> registro
 
 
 

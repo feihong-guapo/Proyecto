@@ -136,4 +136,8 @@ public class SellActivity extends AppCompatActivity {
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> registro

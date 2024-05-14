@@ -69,4 +69,8 @@ public class Incidence implements Serializable {
 
 
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> registro

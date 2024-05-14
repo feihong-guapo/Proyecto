@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
 
+<<<<<<< HEAD
     <ImageView
         android:id="@+id/imageView25"
         android:layout_width="wrap_content"
@@ -17,6 +18,8 @@
         app:layout_constraintVertical_bias="0.039"
         app:srcCompat="@drawable/group_6" />
 
+=======
+>>>>>>> registro
     <FrameLayout
         android:id="@+id/flFragment"
         android:layout_width="match_parent"
@@ -25,6 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -42,6 +46,45 @@
         app:layout_constraintVertical_bias="0.026"
         app:srcCompat="@drawable/microsoftteams_image__2_"
         tools:srcCompat="@drawable/microsoftteams_image__2_" />
+=======
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/imageView25"
+                android:layout_width="119dp"
+                android:layout_height="58dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.027"
+                app:srcCompat="@drawable/group_6" />
+
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="102dp"
+                android:layout_height="59dp"
+                android:background="@color/orange"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.954"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.026"
+
+                app:srcCompat="@drawable/asistencia"
+                tools:srcCompat="@drawable/asistencia"
+                android:contentDescription="TODO" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+>>>>>>> registro
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -49,7 +92,11 @@
         android:layout_height="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.5"
+=======
+        app:layout_constraintHorizontal_bias="0.0"
+>>>>>>> registro
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 

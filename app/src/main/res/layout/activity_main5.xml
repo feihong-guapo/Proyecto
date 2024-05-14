@@ -8,13 +8,22 @@
 
     <ImageView
         android:id="@+id/imageView33"
+<<<<<<< HEAD
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+=======
+        android:layout_width="119dp"
+        android:layout_height="58dp"
+>>>>>>> registro
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.039"
+=======
+        app:layout_constraintVertical_bias="0.027"
+>>>>>>> registro
         app:srcCompat="@drawable/group_6" />
 
     <Button
@@ -24,10 +33,17 @@
         android:text="Ayudame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.207"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.522" />
+=======
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411" />
+>>>>>>> registro
 
     <Button
         android:id="@+id/button10"
@@ -36,8 +52,14 @@
         android:text="No me ayudes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.86"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.522" />
+=======
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.553" />
+>>>>>>> registro
 </androidx.constraintlayout.widget.ConstraintLayout>
