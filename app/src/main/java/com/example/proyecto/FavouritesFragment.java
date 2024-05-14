@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.proyecto.model.CarAdapter;
 import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,15 +34,21 @@ public class FavouritesFragment extends Fragment {
     private RecyclerView recyclerView;
     private CarAdapter carAdapter;
     private List<Coche> carList;
+
+    private User user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            user = (User) bundle.getSerializable("usuario");
+        }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_favourites, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         carList = new ArrayList<>();
-        carAdapter = new CarAdapter(carList, getContext());
+        carAdapter = new CarAdapter(carList, getContext(), user);
         recyclerView.setAdapter(carAdapter);
         loadFavouriteCars();
         return rootView;

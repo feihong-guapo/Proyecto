@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import com.example.proyecto.model.CarAdapter;
 import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,20 +40,25 @@ public class MarketFragment extends Fragment {
     private Spinner brandSpinner;
     private Spinner modelSpinner;
     private Button applyFilterButton;
+    private User user;
 
     private String[] carBrands = {"Toyota", "Honda", "Ford", "Chevrolet", "Bmw", "Mercedes-Benz"};
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            user = (User) bundle.getSerializable("usuario");
+        }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_market, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         brandSpinner = rootView.findViewById(R.id.brandSpinner);
         applyFilterButton = rootView.findViewById(R.id.applyFilterButton);
         carList = new ArrayList<>();
-        carAdapter = new CarAdapter(carList, getContext());
+        carAdapter = new CarAdapter(carList, getContext(), user);
 
         applyFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +87,7 @@ public class MarketFragment extends Fragment {
         JSONObject spinnerData = new JSONObject();
         try {
             spinnerData.put("marca", "Bmw");
+            spinnerData.put("id_user", user.getUser_id());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -94,7 +101,7 @@ public class MarketFragment extends Fragment {
             JSONArray response = null;
             try {
                 JSONObject params = jsonObjects[0];
-                String url = "http://20.90.95.76/getOferts.php";
+                String url = "http://20.90.95.76/getCarsWlikes.php" + "?id_user=" + user.getUser_id();
                 URL apiUrl = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
                 connection.setRequestMethod("POST");
@@ -156,5 +163,7 @@ public class MarketFragment extends Fragment {
                 }
             }
 
+
     }
+
 }

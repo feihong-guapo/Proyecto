@@ -25,6 +25,11 @@
         <activity
             android:name=".empty_activity"
             android:exported="true"></activity>
+        <activity android:name=".CarDetailActivity"
+            android:exported ="true">
+
+        </activity>
+
         <activity
             android:name=".Form10"
             android:exported="false" />
