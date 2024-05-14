@@ -1,8 +1,6 @@
 package com.example.proyecto;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-<<<<<<< HEAD
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

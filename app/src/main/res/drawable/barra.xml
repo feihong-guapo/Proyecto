@@ -1,0 +1,18 @@
+<!-- res/drawable/custom_progress.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Capa de fondo usando una imagen -->
+    <item>
+        <bitmap
+            android:src="@drawable/rectangle_730"
+            android:tileMode="disabled"
+            android:gravity="center_vertical|fill_horizontal" />
+    </item>
+    <!-- Capa de progreso -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#007ADE"/> <!-- Color del progreso -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

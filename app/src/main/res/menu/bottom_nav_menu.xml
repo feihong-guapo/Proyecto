@@ -3,24 +3,8 @@
 
     <item
         android:id="@+id/miHome"
-<<<<<<< HEAD
         android:title="Home"
         android:icon="@drawable/home"/>
-    <item
-        android:id="@+id/miSearch"
-        android:title="Market"
-        android:icon="@drawable/search"/>
-    <item
-        android:id="@+id/miHeart"
-        android:title="Favourites"
-        android:icon="@drawable/heart"/>
-    <item
-        android:id="@+id/miChat"
-        android:title="Chat"
-        android:icon="@drawable/chat"/>
-=======
-        android:icon="@drawable/home"
-        android:title="Home" />
     <item
         android:id="@+id/miSearch"
         android:icon="@drawable/search"
@@ -33,7 +17,6 @@
         android:id="@+id/miChat"
         android:icon="@drawable/chat"
         android:title="Chat" />
->>>>>>> registro
     <item
         android:id="@+id/miProfile"
         android:title="Profile"

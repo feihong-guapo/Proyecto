@@ -121,7 +121,7 @@ public class MainActivity2 extends AppCompatActivity {
                         User user = new User();
                         JSONObject data = (JSONObject) result.get("data");
                         user.setUserData(data);
-                        Intent intent = new Intent(MainActivity2.this, Menu.class);
+                        Intent intent = new Intent(MainActivity2.this, MainActivity5.class);
                         intent.putExtra("usuario", user);
                         startActivity(intent);
                     }

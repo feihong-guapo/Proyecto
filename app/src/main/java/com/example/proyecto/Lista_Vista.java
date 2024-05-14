@@ -30,7 +30,7 @@ public class Lista_Vista extends AppCompatActivity {
         });
     }
     private void repetir() {
-        Intent intent = new Intent(this, empty_activity.class);
+        Intent intent = new Intent(this, MainActivity7.class);
         // intent.putExtra("form1Added", true);
         startActivity(intent);
     }

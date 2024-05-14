@@ -21,7 +21,7 @@
         <ImageView
             android:id="@+id/imageViewCar"
             android:layout_width="100dp"
-            android:layout_height="100dp">
+            android:layout_height="100dp"/>
 
         <TextView
             android:id="@+id/textViewCarName"

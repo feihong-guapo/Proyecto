@@ -125,7 +125,7 @@ public class SellActivity extends AppCompatActivity {
                     else{
 
                         Toast.makeText(SellActivity.this, "Registrado correctamente", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(SellActivity.this, MainActivity.class);
+                        Intent intent = new Intent(SellActivity.this, MainActivity5.class);
                         startActivity(intent);
                         finish();
                     }
