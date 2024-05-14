@@ -15,12 +15,23 @@ import android.widget.TextView;
 public class Form8 extends AppCompatActivity {
     private Button before;
     private Button next;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private String selectedFuelType; // Variable para almacenar el tipo de combustible seleccionado
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form8);
+
+        // Botones
         next = findViewById(R.id.button26);
         before = findViewById(R.id.button25);
+
+        // RadioGroup y RadioButton
+        radioGroup = findViewById(R.id.radioGroup8);
+
+        // Establecer escuchadores para los botones
         next.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 next();
@@ -31,14 +42,32 @@ public class Form8 extends AppCompatActivity {
                 before();
             }
         });
+
+        // Escuchador para los cambios en el RadioGroup
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // Encuentra el RadioButton seleccionado por el ID
+                radioButton = findViewById(checkedId);
+                if (radioButton != null) {
+                    selectedFuelType = radioButton.getText().toString();
+                    // Ahora selectedFuelType contiene el texto del RadioButton seleccionado
+                }
+            }
+        });
     }
+
     public void next() {
         Intent intent = new Intent(this, MainActivity7.class);
+        // Pasar el tipo de combustible seleccionado a la siguiente actividad
+        intent.putExtra("selectedFuelType", selectedFuelType);
         startActivity(intent);
     }
+
     public void before() {
         Intent intent = new Intent(this, Form7.class);
         startActivity(intent);
     }
 }
+
 

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ public class MainActivity7 extends AppCompatActivity {
     private TextView textView;
     private Button next;
     private Button before;
+    private String selectedPriceType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity7 extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Actualiza el TextView directamente sin formato
                 textView.setText(String.valueOf(progress) + "€");
+                selectedPriceType = String.valueOf(progress);
             }
 
             @Override
@@ -59,6 +63,7 @@ public class MainActivity7 extends AppCompatActivity {
     }
     public void next() {
         Intent intent = new Intent(this, Form10.class);
+        intent.putExtra("selectedPriceType", selectedPriceType);
         startActivity(intent);
     }
     public void before() {
