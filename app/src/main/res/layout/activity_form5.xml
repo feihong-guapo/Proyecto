@@ -7,21 +7,6 @@
     tools:context=".Form5">
 
     <ImageView
-<<<<<<< HEAD
-        android:id="@+id/imageView30"
-        android:layout_width="351dp"
-        android:layout_height="29dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup4"
-        app:srcCompat="@drawable/group_1026__3_" />
-
-    <ImageView
-=======
->>>>>>> registro
         android:id="@+id/imageView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,16 +35,9 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintHorizontal_bias="0.527"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.753">
-=======
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.875">
->>>>>>> registro
 
         <RadioButton
             android:id="@+id/radioButton13"

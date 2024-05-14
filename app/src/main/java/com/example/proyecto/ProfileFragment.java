@@ -1,30 +1,20 @@
 package com.example.proyecto;
 
 import android.content.Intent;
-<<<<<<< HEAD
-=======
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
->>>>>>> registro
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-<<<<<<< HEAD
-=======
 import android.util.Base64;
->>>>>>> registro
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-<<<<<<< HEAD
-import android.widget.ImageButton;
-=======
 import android.widget.ImageView;
->>>>>>> registro
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-<<<<<<< HEAD
-=======
 import java.io.BufferedWriter;
->>>>>>> registro
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -57,21 +44,15 @@ public class ProfileFragment extends Fragment {
 
     private TextView codigoPos;
 
-<<<<<<< HEAD
-=======
     private ImageView profPh;
 
->>>>>>> registro
     private Button changePhoto;
 
 
     private Button updateUser;
-<<<<<<< HEAD
-=======
 
     private String b64Ph;
 
->>>>>>> registro
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,11 +65,8 @@ public class ProfileFragment extends Fragment {
         apellidos = rootView.findViewById(R.id.last_name);
         codigoPos = rootView.findViewById(R.id.postal_code);
         updateUser = rootView.findViewById(R.id.change_password_button);
-<<<<<<< HEAD
-=======
         changePhoto = rootView.findViewById(R.id.change_photo_button);
         profPh = rootView.findViewById(R.id.profile_image);
->>>>>>> registro
         Bundle bundle = getArguments();
         if (bundle != null) {
             user = (User) bundle.getSerializable("usuario");
@@ -99,21 +77,15 @@ public class ProfileFragment extends Fragment {
                     nombre.setText(user.getNombre());
                     apellidos.setText(user.getApellidos());
                     codigoPos.setText(user.getCiudad());
-<<<<<<< HEAD
-=======
                     String ruta = user.getRutaImg();
                     new getProfImg().execute(user.getUser_id());
 
->>>>>>> registro
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
             }
-<<<<<<< HEAD
-=======
 
->>>>>>> registro
         }
         // Configurar el evento onClick para el botón de actualizar usuario
         updateUser.setOnClickListener(new View.OnClickListener() {
@@ -123,24 +95,19 @@ public class ProfileFragment extends Fragment {
                 updateUser();
             }
         });
-<<<<<<< HEAD
-=======
         changePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               see_photos();
+                see_photos();
 
             }
         });
 
->>>>>>> registro
         return rootView;
 
 
 
     }
-<<<<<<< HEAD
-=======
     public void see_photos(){
 
         Intent intent;
@@ -148,7 +115,6 @@ public class ProfileFragment extends Fragment {
         intent.putExtra("usuario", user);
         startActivity(intent);
     }
->>>>>>> registro
 
     public void updateUser(){
         JSONObject json = new JSONObject();
@@ -159,10 +125,7 @@ public class ProfileFragment extends Fragment {
             json.put("telefono", tlf.getText().toString());
             json.put("ciudad", codigoPos.getText().toString());
             json.put("id_usuario", user.getUser_id());
-<<<<<<< HEAD
-=======
             new InsertDataTask().execute(json);
->>>>>>> registro
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -223,8 +186,6 @@ public class ProfileFragment extends Fragment {
         }
 
     }
-<<<<<<< HEAD
-=======
     private class getProfImg extends AsyncTask<Integer, Void, String> {
         @Override
         protected String doInBackground(Integer... users) {
@@ -292,7 +253,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
->>>>>>> registro
 
 
 

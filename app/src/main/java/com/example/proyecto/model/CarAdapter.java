@@ -1,13 +1,7 @@
 package com.example.proyecto.model;
-<<<<<<< HEAD
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-=======
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
->>>>>>> registro
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,30 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD
-import java.util.List;
-public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder>{
-    private Context context;
-    private List<Car> carList;
-
-    public CarAdapter(Context context, List<Car> carList) {
-        this.context = context;
-        this.carList = carList;
-    }
-
-    @Override
-    public CarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_car, parent, false);
-        return new CarViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(CarViewHolder holder, int position) {
-        Car car = carList.get(position);
-        holder.itemView.setOnClickListener(v -> {
-            //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(//car.getUrl()));
-            //context.startActivity(intent);
-=======
 import com.example.proyecto.CarDetailActivity;
 import com.example.proyecto.R;
 
@@ -48,6 +18,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     private List<Coche> carList;
 
+    private User user;
     private Context context; // Necesitamos el contexto para iniciar una nueva actividad
 
     public CarAdapter(List<Coche> carList) {
@@ -55,7 +26,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     }
 
     // Constructor que acepta el contexto
-    public CarAdapter(List<Coche> carList, Context context) {
+    public CarAdapter(List<Coche> carList, Context context, User user) {
         this.carList = carList;
         this.context = context;
     }
@@ -94,7 +65,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
                 // Iniciar la nueva actividad
                 context.startActivity(intent);
             }
->>>>>>> registro
         });
     }
 
@@ -103,18 +73,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         return carList.size();
     }
 
-<<<<<<< HEAD
-    public static class CarViewHolder extends RecyclerView.ViewHolder {
-        public TextView carName;
-        public ImageView carImage;
-
-        public CarViewHolder(View itemView) {
-            super(itemView);
-            carName = itemView.findViewById(R.id.textViewCarName);
-            carImage = itemView.findViewById(R.id.imageViewCar);
-        }
-    }
-=======
     public class CarViewHolder extends RecyclerView.ViewHolder {
         public TextView modelNameTextView, brandTextView, yearTextView;
         public ImageView carImageView;
@@ -125,6 +83,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             brandTextView = view.findViewById(R.id.brandTextView);
             yearTextView = view.findViewById(R.id.yearTextView);
             carImageView = view.findViewById(R.id.carImageView);
+
         }
     }
 
@@ -147,5 +106,4 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         notifyDataSetChanged();
     }
 
->>>>>>> registro
 }

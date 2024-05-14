@@ -7,27 +7,16 @@
     tools:context=".MainActivity2">
 
     <ImageView
-<<<<<<< HEAD
-        android:id="@+id/imageView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-=======
         android:id="@+id/imageView30"
         android:layout_width="119dp"
         android:layout_height="58dp"
->>>>>>> registro
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintVertical_bias="0.039"
-        app:srcCompat="@drawable/group_6" />
-=======
         app:layout_constraintVertical_bias="0.027"
         app:srcCompat="@drawable/group_6" />
 
->>>>>>> registro
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -46,10 +35,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-<<<<<<< HEAD
-        android:text="Name"
-=======
->>>>>>> registro
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.796"

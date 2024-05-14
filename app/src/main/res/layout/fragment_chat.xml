@@ -1,67 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="660dp"
-    android:backgroundTint="@color/naranja"
-    android:orientation="vertical"
-    android:paddingTop="50dp"
-    tools:context=".ChatFragment">
-
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/naranja"
-        android:orientation="horizontal">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imagenPerfil"
-            android:src="@drawable/group_6"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:paddingLeft="5dp"
-            app:civ_border_color="@color/black"
-            app:civ_border_width="1dp" />
-
-        <TextView
-            android:id="@+id/nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingLeft="5dp"
-            android:text="Usuario" />
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMensajes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:layout_weight="1"></androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/txtMensaje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Escrube un mesaje" />
-
-        <Button
-            android:id="@+id/btnEnviar"
-            android:layout_width="55dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/_send_24"
-            android:backgroundTint="@color/naranja"
-            android:text=""></Button>
-    </LinearLayout>
-</LinearLayout>
-=======
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -82,4 +19,3 @@
     <!-- TODO: Update blank fragment layout -->
 
 </FrameLayout>
->>>>>>> registro

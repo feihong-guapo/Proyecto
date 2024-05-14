@@ -29,10 +29,7 @@ public class MainActivity3 extends AppCompatActivity {
     private EditText username;
 
     private EditText password;
-<<<<<<< HEAD
-=======
 
->>>>>>> registro
     private EditText confPassword;
 
     @Override
@@ -44,12 +41,6 @@ public class MainActivity3 extends AppCompatActivity {
         username = findViewById(R.id.editTextText4);
         password = findViewById(R.id.editTextTextPassword2);
         confPassword = findViewById(R.id.editTextTextPassword);
-<<<<<<< HEAD
-        signup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                signingup();
-=======
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -65,28 +56,11 @@ public class MainActivity3 extends AppCompatActivity {
                     nextPage();
                 }
 
->>>>>>> registro
 
             }
         });
     }
 
-<<<<<<< HEAD
-    public void signingup() {
-        if (!(confPassword.getText().toString().equals(password.getText().toString()))){
-            Toast.makeText(MainActivity3.this, "ambas contraseñas deben coincidir", Toast.LENGTH_LONG).show();
-
-        }else if(password.getText().toString().length() <= 3){
-            Toast.makeText(MainActivity3.this,"Password is too short. Session denied.", Toast.LENGTH_LONG).show();
-        }else if(password.getText().toString().length() > 15) {
-            Toast.makeText(MainActivity3.this, "Password is too long. Session denied.", Toast.LENGTH_LONG).show();
-        }else{
-            nextPage();
-        }
-
-    }
-=======
->>>>>>> registro
 
     public void nextPage() {
         User user = new User();
@@ -105,9 +79,6 @@ public class MainActivity3 extends AppCompatActivity {
         }
 
     }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> registro
 }

@@ -10,11 +10,6 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp" />
-=======
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
->>>>>>> registro
 </androidx.constraintlayout.widget.ConstraintLayout>

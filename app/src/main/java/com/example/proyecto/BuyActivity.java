@@ -17,17 +17,10 @@ public class BuyActivity extends AppCompatActivity {
     private TextView info;
 
     private Button boton;
-=======
-import android.os.Bundle;
-
-public class BuyActivity extends AppCompatActivity {
-
->>>>>>> registro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
-<<<<<<< HEAD
         info = findViewById(R.id.textView20);
         boton = findViewById(R.id.button7);
         boton.setOnClickListener(new View.OnClickListener(){
@@ -44,10 +37,7 @@ public class BuyActivity extends AppCompatActivity {
         }
     }
     public void prueba(){
+
         info.setText(user.toString());
     }
-
-=======
     }
->>>>>>> registro
-}

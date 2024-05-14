@@ -4,10 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-<<<<<<< HEAD
-=======
 import android.widget.Button;
->>>>>>> registro
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-<<<<<<< HEAD
-=======
 import android.widget.Toast;
->>>>>>> registro
 
 import com.example.proyecto.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -35,17 +29,11 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-<<<<<<< HEAD
-        btn = findViewById(R.id.imageButton);
-        bottomNav = findViewById(R.id.bottomNavigationView);
-        bottomNav = findViewById(R.id.bottomNavigationView);
-=======
 
 
         btn = findViewById(R.id.imageButton);
         bottomNav = findViewById(R.id.bottomNavigationView);
 
->>>>>>> registro
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         Intent intent = getIntent();
@@ -91,31 +79,20 @@ public class Menu extends AppCompatActivity {
                     } else if (item.getItemId() == R.id.miHome){
                         selectedFragment = new MenuFragment();
                     }
-<<<<<<< HEAD
-=======
 
                     // Pasa el objeto usuario al fragmento seleccionado
->>>>>>> registro
                     if (user != null && selectedFragment != null) {
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("usuario", user);
                         selectedFragment.setArguments(bundle);
                     }
-<<<<<<< HEAD
-=======
 
->>>>>>> registro
                     getSupportFragmentManager().beginTransaction().replace(R.id.flFragment,
                             selectedFragment).commit();
 
                     return true;
                 }
-<<<<<<< HEAD
-=======
 
->>>>>>> registro
             };
 
 }
-
-

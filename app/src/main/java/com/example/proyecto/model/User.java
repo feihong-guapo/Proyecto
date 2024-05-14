@@ -19,12 +19,9 @@ public class User implements Serializable {
     private String direccion;
     private String username;
 
-<<<<<<< HEAD
-=======
     private String rutaImg;
 
 
->>>>>>> registro
     public User(){
 
     }
@@ -125,8 +122,6 @@ public class User implements Serializable {
         this.username = username;
     }
 
-<<<<<<< HEAD
-=======
     public String getRutaImg() {
         return rutaImg;
     }
@@ -135,7 +130,6 @@ public class User implements Serializable {
         this.rutaImg = rutaImg;
     }
 
->>>>>>> registro
     public String getjSonparamsReg() throws JSONException {
         JSONObject jsonParams = new JSONObject();
         jsonParams.put("password",this.password);
@@ -164,10 +158,7 @@ public class User implements Serializable {
         this.ciudad = json.getString("ciudad");
         this.direccion = json.getString("direccion");
         this.username = json.getString("username");
-<<<<<<< HEAD
-=======
         this.rutaImg = json.getString("prof_route");
->>>>>>> registro
     }
 
     @Override
@@ -187,12 +178,4 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 '}';
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 946e70333f5bb03c53ec3f8b220f6483a94716f4
-=======
-}
->>>>>>> registro

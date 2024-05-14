@@ -14,9 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class ShowFavourites extends Fragment {
-    private RecyclerView recyclerView;
-    private CarAdapter carAdapter;
-    private List<Car> carList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

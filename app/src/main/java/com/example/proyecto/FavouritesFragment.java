@@ -1,24 +1,5 @@
 package com.example.proyecto;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-
-public class FavouritesFragment extends Fragment {
-
-    private BottomNavigationView bottomNav;
-
-=======
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -52,29 +33,16 @@ public class FavouritesFragment extends Fragment {
     private RecyclerView recyclerView;
     private CarAdapter carAdapter;
     private List<Coche> carList;
->>>>>>> registro
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-<<<<<<< HEAD
-        View view = inflater.inflate(R.layout.fragment_favourites, container, false);
-
-        // Buscar el BottomNavigationView dentro de la vista inflada del fragmento
-
-
-        return view;
-    }
-}
-
-
-=======
         View rootView = inflater.inflate(R.layout.fragment_favourites, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         carList = new ArrayList<>();
-        carAdapter = new CarAdapter(carList, getContext());
-        recyclerView.setAdapter(carAdapter);
+//        carAdapter = new CarAdapter(carList, getContext());
+//        recyclerView.setAdapter(carAdapter);
         loadFavouriteCars();
         return rootView;
 
@@ -148,7 +116,7 @@ public class FavouritesFragment extends Fragment {
             }
         }
 
-}
+    }
     private void loadFavouriteCars() {
         JSONObject params = new JSONObject();
         try {
@@ -159,4 +127,3 @@ public class FavouritesFragment extends Fragment {
         new GetFilteredResultTask().execute(params);
     }
 }
->>>>>>> registro
