@@ -11,6 +11,8 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.proyecto.model.DataFormManager;
+
 public class MainActivity7 extends AppCompatActivity {
     private SeekBar seekBar;
     private TextView textView;
@@ -28,7 +30,7 @@ public class MainActivity7 extends AppCompatActivity {
         final TextView textView = findViewById(R.id.textViewDinero);
         SeekBar seekBar = findViewById(R.id.seekBar);
 
-
+        next.setEnabled(false);
         next.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 next();
@@ -47,6 +49,7 @@ public class MainActivity7 extends AppCompatActivity {
                 // Actualiza el TextView directamente sin formato
                 textView.setText(String.valueOf(progress) + "€");
                 selectedPriceType = String.valueOf(progress);
+                next.setEnabled(true);
             }
 
             @Override
@@ -63,7 +66,7 @@ public class MainActivity7 extends AppCompatActivity {
     }
     public void next() {
         Intent intent = new Intent(this, Form10.class);
-        intent.putExtra("selectedPriceType", selectedPriceType);
+        DataFormManager.getInstance().saveData("selectedPriceType", selectedPriceType);
         startActivity(intent);
     }
     public void before() {

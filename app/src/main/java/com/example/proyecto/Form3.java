@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.proyecto.model.DataFormManager;
+
 public class Form3 extends AppCompatActivity {
     private Button before;
     private Button next;
@@ -25,6 +27,7 @@ public class Form3 extends AppCompatActivity {
         next = findViewById(R.id.button20);
         before = findViewById(R.id.button19);
         radioGroup = findViewById(R.id.radioGroup3);
+        next.setEnabled(false);
         next.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 next();
@@ -43,13 +46,14 @@ public class Form3 extends AppCompatActivity {
                 if (radioButton != null) {
                     selectedKmType = radioButton.getText().toString();
                     // Ahora selectedFuelType contiene el texto del RadioButton seleccionado
+                    next.setEnabled(true);
                 }
             }
         });
     }
     public void next() {
         Intent intent = new Intent(this, Form6.class);
-        intent.putExtra("selectedKmType", selectedKmType);
+        DataFormManager.getInstance().saveData("selectedKmType", selectedKmType);
         startActivity(intent);
     }
     public void before() {

@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.proyecto.model.DataFormManager;
+
 public class Form8 extends AppCompatActivity {
     private Button before;
     private Button next;
@@ -30,6 +32,7 @@ public class Form8 extends AppCompatActivity {
 
         // RadioGroup y RadioButton
         radioGroup = findViewById(R.id.radioGroup8);
+        next.setEnabled(false);
 
         // Establecer escuchadores para los botones
         next.setOnClickListener(new View.OnClickListener(){
@@ -52,6 +55,7 @@ public class Form8 extends AppCompatActivity {
                 if (radioButton != null) {
                     selectedFuelType = radioButton.getText().toString();
                     // Ahora selectedFuelType contiene el texto del RadioButton seleccionado
+                    next.setEnabled(true);
                 }
             }
         });
@@ -60,7 +64,7 @@ public class Form8 extends AppCompatActivity {
     public void next() {
         Intent intent = new Intent(this, MainActivity7.class);
         // Pasar el tipo de combustible seleccionado a la siguiente actividad
-        intent.putExtra("selectedFuelType", selectedFuelType);
+        DataFormManager.getInstance().saveData("selectedFuelType", selectedFuelType);
         startActivity(intent);
     }
 

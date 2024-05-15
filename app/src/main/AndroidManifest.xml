@@ -19,19 +19,13 @@
             android:name=".MainActivity7"
             android:exported="false" />
         <activity
-            android:name=".FormMoney"
-            android:exported="false" />
-        <activity
-            android:name=".Form9"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity6"
             android:exported="false" />
         <activity
             android:name=".Menu"
             android:exported="true" />
         <activity
-            android:name=".empty_activity"
+            android:name=".Lista_Vista"
             android:exported="true" />
         <activity
             android:name=".Form10"

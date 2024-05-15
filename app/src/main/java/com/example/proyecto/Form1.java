@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.proyecto.model.DataFormManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +33,15 @@ public class Form1 extends AppCompatActivity {
     private ImageButton buttonNext;
     private ImageButton buttonPrevious;
     private ImageView imageView;
+    private String[] imageDescriptions = new String[] {
+            "Berlina",
+            "SUV 4x4",
+            "Ranchera",
+            "Urbano",
+            "Deportivo",
+            "Comercial",
+            "Monovolumen"
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +50,7 @@ public class Form1 extends AppCompatActivity {
         buttonNext = findViewById(R.id.imageButton2);
         buttonPrevious = findViewById(R.id.imageButton4);
         imageView = findViewById(R.id.imageView5);
+        next.setEnabled(false);
         next.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 next();
@@ -57,11 +69,15 @@ public class Form1 extends AppCompatActivity {
             if (imageIndex < images.length - 1) {
                 imageIndex++;
                 imageView.setImageResource(images[imageIndex]);
+                next.setEnabled(true);
             }
         });
     }
     public void next() {
         Intent intent = new Intent(this, Form2.class);
+        if (imageIndex >= 0 && imageIndex < imageDescriptions.length) {
+            DataFormManager.getInstance().saveData("modelo", imageDescriptions[imageIndex]);
+        }
         startActivity(intent);
     }
 }
