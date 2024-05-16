@@ -55,7 +55,7 @@
             android:id="@+id/btnEnviar"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/_search_24"
+            android:background="@drawable/_send_24"
             android:backgroundTint="@color/naranja"
             android:text=""></Button>
     </LinearLayout>
