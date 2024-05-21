@@ -87,7 +87,7 @@ public class MarketFragment extends Fragment {
         JSONObject spinnerData = new JSONObject();
         try {
             spinnerData.put("marca", "Bmw");
-            spinnerData.put("id_user", user.getUser_id());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
