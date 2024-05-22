@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity5">
 
         <ImageView
@@ -17,26 +18,29 @@
             app:layout_constraintVertical_bias="0.027"
             app:srcCompat="@drawable/group_6" />
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ayudame"
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="181dp"
+            android:layout_height="228dp"
+            android:background="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.095"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.411" />
+            app:layout_constraintVertical_bias="0.447"
+            app:srcCompat="@drawable/help_question_1566" />
 
-        <Button
-            android:id="@+id/button10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No me ayudes"
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_width="181dp"
+            android:layout_height="228dp"
+            android:background="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.938"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.553" />
+            app:layout_constraintVertical_bias="0.448"
+            app:srcCompat="@drawable/_486505383_estate_home_building_shop_store_house_real_81431" />
 </androidx.constraintlayout.widget.ConstraintLayout>

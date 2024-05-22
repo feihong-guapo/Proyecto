@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -15,8 +16,8 @@ import android.widget.TextView;
 import com.example.proyecto.model.DataFormManager;
 
 public class Form8 extends AppCompatActivity {
-    private Button before;
-    private Button next;
+    private ImageButton before;
+    private ImageButton next;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private String selectedFuelType; // Variable para almacenar el tipo de combustible seleccionado
@@ -27,8 +28,8 @@ public class Form8 extends AppCompatActivity {
         setContentView(R.layout.activity_form8);
 
         // Botones
-        next = findViewById(R.id.button26);
-        before = findViewById(R.id.button25);
+        next = findViewById(R.id.imageButton13);
+        before = findViewById(R.id.imageButton19);
 
         // RadioGroup y RadioButton
         radioGroup = findViewById(R.id.radioGroup8);

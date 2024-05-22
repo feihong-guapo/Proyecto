@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -15,8 +16,8 @@ import android.widget.TextView;
 import com.example.proyecto.model.DataFormManager;
 
 public class Form2 extends AppCompatActivity {
-    private Button before;
-    private Button next;
+    private ImageButton before;
+    private ImageButton next;
     private RadioGroup radioGroup;
     private RadioButton radioButton;
     private String selectedDailyType;
@@ -24,8 +25,8 @@ public class Form2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form2);
-        next = findViewById(R.id.button18);
-        before = findViewById(R.id.button17);
+        next = findViewById(R.id.imageButton9);
+        before = findViewById(R.id.imageButton15);
         radioGroup = findViewById(R.id.radioGroup2);
         next.setEnabled(false);
         next.setOnClickListener(new View.OnClickListener(){

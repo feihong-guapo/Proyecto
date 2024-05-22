@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -16,16 +17,16 @@ import com.example.proyecto.model.DataFormManager;
 public class MainActivity7 extends AppCompatActivity {
     private SeekBar seekBar;
     private TextView textView;
-    private Button next;
-    private Button before;
+    private ImageButton next;
+    private ImageButton before;
     private String selectedPriceType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main7);
-        next = findViewById(R.id.button28);
-        before = findViewById(R.id.button27);
+        next = findViewById(R.id.imageButton14);
+        before = findViewById(R.id.imageButton20);
 
         final TextView textView = findViewById(R.id.textViewDinero);
         SeekBar seekBar = findViewById(R.id.seekBar);

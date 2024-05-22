@@ -1,66 +1,76 @@
 package com.example.proyecto;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.proyecto.model.CarAdapter;
+import com.example.proyecto.model.CarAdapter2;
+import com.example.proyecto.model.Coche;
 import com.example.proyecto.model.DataFormManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class Lista_Vista extends AppCompatActivity {
-    private Button repetir;
-    private Button menu;
-    private TextView text1;
-    private TextView text2;
-    private TextView text3;
-    private TextView text4;
-    private TextView text5;
-    private TextView text6;
-    private TextView text7;
+    private ImageButton repetir;
+    private ImageButton menu;
+    private RecyclerView recyclerView;
+    private CarAdapter2 carAdapter;
+    private List<Coche> carList;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_vista);
-        repetir = findViewById(R.id.button11);
-        menu = findViewById(R.id.button12);
-        text1 = findViewById(R.id.textView28);
-        text2 = findViewById(R.id.textView29);
-        text3 = findViewById(R.id.textView30);
-        text4 = findViewById(R.id.textView31);
-        text5 = findViewById(R.id.textView32);
-        text6 = findViewById(R.id.textView33);
-        text7 = findViewById(R.id.textView34);
-        String valor1 = DataFormManager.getInstance().getData("modelo");
-        String valor2 = DataFormManager.getInstance().getData("selectedDailyType");
-        String valor3 = DataFormManager.getInstance().getData("selectedKmType");
-        String valor4 = DataFormManager.getInstance().getData("selectedPlazasType");
-        String valor5 = DataFormManager.getInstance().getData("selectedZoneType");
-        String valor6 = DataFormManager.getInstance().getData("selectedFuelType");
-        String valor7 = DataFormManager.getInstance().getData("selectedPriceType");
+        menu = findViewById(R.id.imageButton5);
+        repetir = findViewById(R.id.imageButton3);
+        recyclerView = findViewById(R.id.recyclerView12);
 
-        repetir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                repetir();
-            }
-        });
-        menu.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                menu();
-            }
-        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fetchCars();
+
+        repetir.setOnClickListener(v -> repetir());
+        menu.setOnClickListener(v -> menu());
     }
+
+    private void fetchCars() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://20.90.95.76/mostrarForm.php?modelo=" + DataFormManager.getInstance().getData("modelo") +
+                "&combustible=" + DataFormManager.getInstance().getData("selectedFuelType") +
+                "&kms=" + DataFormManager.getInstance().getData("selectedKmType") +
+                "&tiempo=" + DataFormManager.getInstance().getData("selectedDailyType") +
+                "&plazas=" + DataFormManager.getInstance().getData("selectedPlazasType") +
+                "&uso=" + DataFormManager.getInstance().getData("selectedZoneType") +
+                "&precioMaximo=" + DataFormManager.getInstance().getData("selectedPriceType");
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    Type listType = new TypeToken<List<Coche>>(){}.getType();
+                    carList = new Gson().fromJson(response, listType);
+                    carAdapter = new CarAdapter2(carList, this);
+                    recyclerView.setAdapter(carAdapter);
+                },
+                error -> Toast.makeText(Lista_Vista.this, "Error fetching data", Toast.LENGTH_LONG).show());
+        queue.add(stringRequest);
+    }
+
     private void repetir() {
         Intent intent = new Intent(this, Form1.class);
-        // intent.putExtra("form1Added", true);
         startActivity(intent);
     }
+
     private void menu(){
         Intent intent = new Intent(this, Menu.class);
         startActivity(intent);

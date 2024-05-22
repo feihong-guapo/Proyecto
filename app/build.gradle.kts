@@ -38,9 +38,6 @@ android {
 dependencies {
     implementation("com.google.android.material:material:1.2.0-alpha04")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
-}
-
-dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -51,11 +48,11 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.5.3")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
     implementation("androidx.navigation:navigation-ui:2.7.7")
-
+    implementation("com.android.volley:volley:1.2.1")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.recyclerview:recyclerview:1.2.1")
     implementation ("androidx.appcompat:appcompat:1.3.0")
-
+    implementation ("com.google.code.gson:gson:2.8.9")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
@@ -70,3 +67,4 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+

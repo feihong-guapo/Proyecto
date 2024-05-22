@@ -6,29 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".Form3">
 
-    <Button
-        android:id="@+id/button19"
+    <ImageButton
+        android:id="@+id/imageButton16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Anterior"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@drawable/ic_back_97586" />
 
-    <Button
-        android:id="@+id/button20"
+    <ImageButton
+        android:id="@+id/imageButton10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Siguiente"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.987"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@drawable/ic_next_97622" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -68,7 +70,7 @@
             android:id="@+id/radioButton7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="  Más de 1.500"
+            android:text="  Más de 1500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +85,7 @@
             android:id="@+id/radioButton8"
             android:layout_width="178dp"
             android:layout_height="48dp"
-            android:text="  Entre 500 y 1.500"
+            android:text="  Entre 500 y 1500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +114,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¿Cuántos kilómetros haces a la semana?"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

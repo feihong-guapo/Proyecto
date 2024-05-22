@@ -6,29 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".Form7">
 
-    <Button
-        android:id="@+id/button23"
+    <ImageButton
+        android:id="@+id/imageButton18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Anterior"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@drawable/ic_back_97586" />
 
-    <Button
-        android:id="@+id/button24"
+    <ImageButton
+        android:id="@+id/imageButton12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Siguiente"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.987"
+        app:layout_constraintHorizontal_bias="0.956"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@drawable/ic_next_97622" />
 
     <ImageView
         android:id="@+id/imageView17"
@@ -127,6 +129,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¿Por donde sueles ir con el coche?"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

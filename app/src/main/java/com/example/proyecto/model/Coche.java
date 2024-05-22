@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 public class Coche implements Serializable {
+
+    private int id_coche;
     private String modelo;
     private String marca;
     private Motor motor;
@@ -19,6 +21,24 @@ public class Coche implements Serializable {
     private double longitudCm;
     private double maleteroL;
     private double precioEuros;
+
+    private boolean liked;
+
+    public int getId_coche() {
+        return id_coche;
+    }
+
+    public void setId_coche(int id_coche) {
+        this.id_coche = id_coche;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
 
     public String getModelo() {
         return modelo;
@@ -126,6 +146,8 @@ public class Coche implements Serializable {
 
 
     public void setDataJson(JSONObject json) throws JSONException {
+
+        this.id_coche = json.optInt("id_coche");
         this.modelo = json.optString("modelo", null);
         this.marca = json.optString("nombre_marca", null);
         this.tipoCoche = json.optString("tipo_coche", null);
@@ -138,7 +160,16 @@ public class Coche implements Serializable {
         this.maleteroL = json.optDouble("maletero_l");
         this.precioEuros = json.optDouble("precio_euros");
 
+
+        if( json.getInt("es_favorito")== 1){
+            this.liked = true;
+
+        }
+        else{
+            this.liked = false;
+        }
         this.motor = new Motor();
         this.motor.setData(json.getJSONObject("motor"));
+
     }
 }
