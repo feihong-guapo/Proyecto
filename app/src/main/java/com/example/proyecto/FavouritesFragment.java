@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class FavouritesFragment extends Fragment {
     private CarAdapter carAdapter;
     private List<Coche> carList;
     private User user;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,7 +53,6 @@ public class FavouritesFragment extends Fragment {
         recyclerView.setAdapter(carAdapter);
         loadFavouriteCars();
         return rootView;
-
     }
 
     private class GetFilteredResultTask extends AsyncTask<JSONObject, Void, JSONArray> {
@@ -60,7 +61,7 @@ public class FavouritesFragment extends Fragment {
             JSONArray response = null;
             try {
                 JSONObject params = jsonObjects[0];
-                String url = "http://20.90.95.76/showFav.php";
+                String url = "http://20.90.95.76/mostrarFav.php";
                 URL apiUrl = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
                 connection.setRequestMethod("POST");
@@ -84,9 +85,10 @@ public class FavouritesFragment extends Fragment {
                     inputStream.close();
 
                     String jsonString = responseBuilder.toString();
+                    Log.d("FavouritesFragment", "JSON Response: " + jsonString);  // Debug log
                     response = new JSONArray(jsonString);
                 } else {
-                    // Manejo de errores
+                    Log.e("FavouritesFragment", "HTTP Error: " + responseCode);  // Error log
                 }
                 connection.disconnect();
             } catch (Exception e) {
@@ -97,7 +99,6 @@ public class FavouritesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray result) {
-
             super.onPostExecute(result);
             if (result != null && result.length() > 0) {
                 try {
@@ -111,22 +112,23 @@ public class FavouritesFragment extends Fragment {
                     }
 
                     // Actualizar la lista de coches en el RecyclerView
+                    Log.d("FavouritesFragment", "Cars loaded: " + carsList.size());  // Debug log
                     carAdapter.setCars(carsList);
                     carAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
-                    // Manejar el caso en que ocurra un error al parsear el JSON
                     e.printStackTrace();
                 }
             } else {
-                // Manejar el caso en que el JSONArray result sea null
+                Log.d("FavouritesFragment", "No cars found or result is null");  // Debug log
             }
         }
-
     }
+
     private void loadFavouriteCars() {
         JSONObject params = new JSONObject();
         try {
-            params.put("user_id", "8");
+            params.put("id_user", user.getUser_id());
+            Log.d("FavouritesFragment", "Params: " + params.toString());  // Debug log
         } catch (JSONException e) {
             e.printStackTrace();
         }

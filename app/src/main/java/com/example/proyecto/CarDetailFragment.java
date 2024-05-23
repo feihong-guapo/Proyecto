@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -95,7 +96,15 @@ public class CarDetailFragment extends Fragment {
             motor.setText(coche.getMotor().getTipo());
             maxLCons.setText(coche.getMotor().getConsumoMixtoMaxL() + " L");
             minLCons.setText(coche.getMotor().getConsumoMixtoMinL() + " L");
-
+            Button backButton = rootView.findViewById(R.id.button8);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getFragmentManager() != null) {
+                        getFragmentManager().popBackStack();
+                    }
+                }
+            });
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
