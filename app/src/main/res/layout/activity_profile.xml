@@ -5,33 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <ImageView-->
-<!--        android:id="@+id/imageView14"-->
-<!--        android:layout_width="169dp"-->
-<!--        android:layout_height="122dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.557"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.078"-->
-<!--        app:srcCompat="@drawable/usuario" />-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imagenPerfil"
-        android:layout_width="122dp"
-        android:layout_height="122dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/usuario"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="553dp"
+        android:layout_height="690dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -47,7 +24,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="1dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagenPerfi"
+                android:layout_width="122dp"
+                android:layout_height="122dp"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/usuario"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="3dp"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+            <!-- Segundo par -->
 
             <!-- Primer par -->
             <LinearLayout
@@ -114,7 +109,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Ingrese segundo apellido " />
+                    android:hint="Ingrese segundo apellido "
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
@@ -207,7 +203,7 @@
                     android:text="Ciudad:" />
 
                 <Spinner
-                    android:layout_width="0dp"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Elija su ciudad" />
@@ -234,105 +230,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Ingrese su dirección" />
+                    android:hint="Ingrese su dirección"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginEnd="8dp"-->
-            <!--                    android:text="Tipo de pago:" />-->
-
-            <!--                <EditText-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:hint="Escoja su pago" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <Space-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="16dp" />-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginEnd="8dp"-->
-            <!--                    android:text="Numero:" />-->
-
-            <!--                <EditText-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:hint="Inserte su número de la tarjeta" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <Space-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="16dp" />-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginEnd="8dp"-->
-            <!--                    android:text="Fecha de caducidad:" />-->
-
-            <!--                <EditText-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:hint="Inserte su fecha de caducidad" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <Space-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="16dp" />-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:gravity="center_vertical"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginEnd="8dp"-->
-            <!--                    android:text="Codigo pin:" />-->
-
-            <!--                <EditText-->
-            <!--                    android:layout_width="0dp"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_weight="1"-->
-            <!--                    android:hint="Ingrese su codigo pin" />-->
-
-            <!--            </LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 
