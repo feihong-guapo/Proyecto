@@ -13,10 +13,10 @@
         android:padding="16dp">
 
         <Button
-            android:id="@+id/change_photo_button"
-            android:layout_width="match_parent"
+            android:id="@+id/change_photo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modificar foto" />
+            android:text="Change Photo" />
 
         <!-- Personal Information Section -->
         <TextView

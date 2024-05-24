@@ -1,15 +1,20 @@
 
 package com.example.proyecto;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.proyecto.model.Coche;
@@ -24,6 +29,8 @@ import java.net.URL;
 
 public class CarDetailFragment extends Fragment {
 
+    private ImageButton   compartirbutton;
+    private Button  mostrar;
     private ImageView carImageView;
     private TextView modelNameTextView;
     private TextView brandTextView;
@@ -42,9 +49,10 @@ public class CarDetailFragment extends Fragment {
     private TextView minLCons;
     private User user;
     private Coche coche;
-
+    private boolean favorito = false;
     private ImageButton likeButton;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +68,8 @@ public class CarDetailFragment extends Fragment {
             String brand = arguments.getString("brand");
 
             // Inicializar vistas
+            mostrar = rootView.findViewById(R.id.mostrar);
+            compartirbutton = rootView.findViewById(R.id.compartirboton);
             carImageView = rootView.findViewById(R.id.carImageView);
             modelNameTextView = rootView.findViewById(R.id.modelTextView);
             brandTextView = rootView.findViewById(R.id.brandTextView);
@@ -78,6 +88,7 @@ public class CarDetailFragment extends Fragment {
             minLCons = rootView.findViewById(R.id.textViewConsMin);
             likeButton = rootView.findViewById(R.id.imageButton1);
             toggleLike(rootView.findViewById(R.id.imageButton1));
+
 //        int carImageResource = getCarImageResource(modelName);
 //        carImageView.setImageResource(carImageResource);
             modelNameTextView.setText(coche.getModelo());
@@ -95,6 +106,12 @@ public class CarDetailFragment extends Fragment {
             motor.setText(coche.getMotor().getTipo());
             maxLCons.setText(coche.getMotor().getConsumoMixtoMaxL() + " L");
             minLCons.setText(coche.getMotor().getConsumoMixtoMinL() + " L");
+
+            compartirbutton.setOnClickListener(v -> shareCarDetails());
+
+
+
+
 
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -118,8 +135,50 @@ public class CarDetailFragment extends Fragment {
 
         }
 
+
+        mostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (motor.getVisibility() == View.VISIBLE) {
+                    motor.setVisibility(View.GONE);
+                    T1.setVisibility(View.GONE);
+                    T2.setVisibility(View.GONE);
+                    T3.setVisibility(View.GONE);
+                    maxLCons.setVisibility(View.GONE);
+                    minLCons.setVisibility(View.GONE);
+                } else {
+                    motor.setVisibility(View.VISIBLE);
+                    T1.setVisibility(View.VISIBLE);
+                    T2.setVisibility(View.VISIBLE);
+                    T3.setVisibility(View.VISIBLE);
+                    maxLCons.setVisibility(View.VISIBLE);
+                    minLCons.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+
         return rootView;
+
+
     }
+
+
+
+
+    private void shareCarDetails() {
+        String shareText = "¡Mira este coche increíble!  Más información en: https://www.autoepic.com/";
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Intent chooser = Intent.createChooser(shareIntent, "Compartir usando");
+        startActivity(chooser);
+    }
+
 
     private void guardarLikeOEliminarlo() {
         if(coche.isLiked()){
@@ -132,14 +191,8 @@ public class CarDetailFragment extends Fragment {
     }
 
     public void toggleLike(View view) {
-        coche.setLiked(!coche.isLiked()); // Invierte el estado de "like"
-        // Cambiar el color del botón según el estado de "like"
-        if (coche.isLiked()) {
-            ((ImageButton) view).setImageResource(R.drawable.corazon);
-        } else {
-            ((ImageButton) view).setImageResource(R.drawable.corazon_gris);
-        }
-        // Guardar el estado del "like" en la base de datos o servidor
+        int iconResId = coche.isLiked() ? R.drawable.baseline_favorite_red_24 : R.drawable.baseline_favorite_border_while_24;
+        likeButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), iconResId));
 
     }
 

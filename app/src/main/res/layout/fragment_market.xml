@@ -9,9 +9,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="116dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginBottom="164dp"
+            android:layout_marginStart="119dp"
+            android:layout_marginEnd="97dp"
+            android:layout_marginBottom="120dp"
             android:padding="8dp" />
 
         <TextView
@@ -20,8 +20,8 @@
             android:layout_height="106dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="194dp"
-            android:layout_marginBottom="495dp"
+            android:layout_marginEnd="201dp"
+            android:layout_marginBottom="422dp"
             android:padding="20dp"
             android:text="Filtrar por:"
             android:textSize="18sp"
@@ -35,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="117dp"
+            android:layout_marginBottom="20dp"
             android:text="Aplicar Filtro" />
 
         <Spinner
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="-4dp"
-            android:layout_marginBottom="529dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="468dp"
             android:background="@android:drawable/btn_dropdown"
             android:paddingStart="16dp"
             android:paddingTop="8dp"

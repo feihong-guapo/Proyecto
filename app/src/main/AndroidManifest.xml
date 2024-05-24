@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
 
 
     <application
@@ -25,7 +27,7 @@
         <activity
             android:name=".empty_activity"
             android:exported="true"></activity>
-        <activity android:name=".CarDetailActivity"
+        <activity android:name=".CarDetailFragment"
             android:exported ="true">
 
         </activity>

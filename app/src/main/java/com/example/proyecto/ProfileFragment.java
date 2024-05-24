@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
         apellidos = rootView.findViewById(R.id.last_name);
         codigoPos = rootView.findViewById(R.id.postal_code);
         updateUser = rootView.findViewById(R.id.change_password_button);
-        changePhoto = rootView.findViewById(R.id.change_photo_button);
+        changePhoto = rootView.findViewById(R.id.change_photo);
         profPh = rootView.findViewById(R.id.profile_image);
         Bundle bundle = getArguments();
         if (bundle != null) {
