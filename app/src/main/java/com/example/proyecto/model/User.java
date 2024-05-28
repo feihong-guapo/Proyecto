@@ -25,7 +25,10 @@ public class User implements Serializable {
     public User(){
 
     }
-
+    public User(String nombre, String rutaImg) {
+        this.nombre = nombre;
+        this.rutaImg = rutaImg;
+    }
     public String getPassword() {
         return password;
     }
