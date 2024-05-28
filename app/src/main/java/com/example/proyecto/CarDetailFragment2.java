@@ -3,6 +3,7 @@ package com.example.proyecto;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.proyecto.model.Coche;
 import com.example.proyecto.model.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -23,6 +27,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CarDetailFragment2 extends Fragment {
 
@@ -46,14 +52,14 @@ public class CarDetailFragment2 extends Fragment {
     private Coche coche;
 
     private ImageButton likeButton;
-
-
+    private ImageButton buttonChat;
+    private FirebaseDatabase firebaseDatabase;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflar el diseño del fragmento
         View rootView = inflater.inflate(R.layout.fragment_car_detail2, container, false);
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
         // Obtener los datos del Argumento
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -81,6 +87,7 @@ public class CarDetailFragment2 extends Fragment {
             minLCons = rootView.findViewById(R.id.textViewConsMin);
             likeButton = rootView.findViewById(R.id.imageButton1);
             toggleLike(rootView.findViewById(R.id.imageButton1));
+            buttonChat = rootView.findViewById(R.id.imageButton21);
 //        int carImageResource = getCarImageResource(modelName);
 //        carImageView.setImageResource(carImageResource);
             modelNameTextView.setText(coche.getModelo());
@@ -106,7 +113,12 @@ public class CarDetailFragment2 extends Fragment {
                     getActivity().finish();
                 }
             });
-
+            buttonChat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createNewChatInFirebase();
+                }
+            });
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -154,7 +166,35 @@ public class CarDetailFragment2 extends Fragment {
 
     }
 
+    private void createNewChatInFirebase() {
+        DatabaseReference chatsRef = firebaseDatabase.getReference("chats");
 
+        // Crear un nuevo ID de chat o usar un método para generar uno
+        String chatId = chatsRef.push().getKey();
+
+        // Crear una estructura de datos para el chat
+        Map<String, Object> chatData = new HashMap<>();
+        chatData.put("participants", new HashMap<String, Boolean>() {{
+            put("user" + user.getUser_id(), true);
+            put("admin", true);
+        }});
+
+        // Opcionalmente, inicializar el chat con un mensaje de bienvenida
+        Map<String, Object> message = new HashMap<>();
+        message.put("text", "Welcome to the new chat!");
+        message.put("sender", "system");
+        message.put("timestamp", ServerValue.TIMESTAMP);
+
+        // Agregar el mensaje inicial al chat
+        chatData.put("messages", new HashMap<String, Object>() {{
+            put("message1", message);
+        }});
+
+        // Guardar el nuevo chat en Firebase
+        chatsRef.child(chatId).setValue(chatData)
+                .addOnSuccessListener(aVoid -> Log.d("NewChat", "Chat created successfully!"))
+                .addOnFailureListener(e -> Log.d("NewChat", "Failed to create chat.", e));
+    }
     private class InsertDataTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void ... voids) {
