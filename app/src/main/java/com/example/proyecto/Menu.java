@@ -2,6 +2,7 @@ package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,13 +38,14 @@ public class Menu extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         Intent intent = getIntent();
-        if (intent != null){
+        if (intent != null) {
             user = (User) intent.getSerializableExtra("usuario");
-            if (user != null ){
-                // Do something with the user object if needed
+            if (user != null) {
+                Log.d("Menu", "Usuario recibido: " + user.toString());
+            } else {
+                Log.e("Menu", "No se recibió ningún usuario.");
             }
         }
-
 
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

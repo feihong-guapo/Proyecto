@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.proyecto.model.DataFormManager;
 import com.example.proyecto.model.User;
+import com.example.proyecto.model.UserFormManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -116,13 +119,19 @@ public class MainActivity2 extends AppCompatActivity {
             if (result != null) {
                 try {
                     String status = result.getString("status");
-
                     if (status.equals("OK")){
-                        User user = new User();
-                        JSONObject data = (JSONObject) result.get("data");
-                        user.setUserData(data);
-                        Intent intent = new Intent(MainActivity2.this, Menu.class);
-                        intent.putExtra("usuario", user);
+                        JSONObject data = result.getJSONObject("data");
+
+                        User createdUser = UserFormManager.createUserFromJson(data);
+                        DataFormManager.getInstance().setUser(createdUser); // Asegúrate de que esto se ejecuta.
+
+                        if (createdUser != null) {
+                            Log.d("MainActivity2", "Usuario creado: " + createdUser.toString());
+                        } else {
+                            Log.e("MainActivity2", "Error al crear el usuario.");
+                        }
+
+                        Intent intent = new Intent(MainActivity2.this, Form1.class);
                         startActivity(intent);
                     }
                 } catch (JSONException e) {

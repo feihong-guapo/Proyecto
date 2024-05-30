@@ -146,7 +146,7 @@ public class User implements Serializable {
         jsonParams.put("ciudad", this.ciudad);
         jsonParams.put("direccion", this.direccion);
         jsonParams.put("username", this.username);
-
+        jsonParams.put("user_id", this.user_id);
         return jsonParams.toString();
 
     }
