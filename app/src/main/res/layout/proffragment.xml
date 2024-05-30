@@ -1,34 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/imageView14"-->
-    <!--        android:layout_width="169dp"-->
-    <!--        android:layout_height="122dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.557"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="0.078"-->
-    <!--        app:srcCompat="@drawable/usuario" />-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imagenPerfil"
-        android:layout_width="122dp"
-        android:layout_height="122dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/usuario"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="3dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingClass" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,6 +27,15 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/image_44"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#FF000000"
+                tools:ignore="ContentDescription" />
+
             <!-- Primer par -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,10 +47,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Nombre*:" />
+                    android:text="Nombre:" />
 
                 <EditText
-                    android:layout_width="0dp"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Ingrese su nombre" />
@@ -74,7 +60,7 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
-            <!-- Segundo par -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -85,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Apellido*:" />
+                    android:text="Apellido:" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -181,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="Movil*:" />
+                    android:text="Movil:" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -195,6 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -207,11 +194,11 @@
                     android:layout_marginEnd="8dp"
                     android:text="Ciudad:" />
 
-                <Spinner
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Elija su ciudad" />
+                    android:hint="Ingrese su telefono movil" />
 
             </LinearLayout>
             <!-- Puedes seguir añadiendo más pares de TextView y EditText -->

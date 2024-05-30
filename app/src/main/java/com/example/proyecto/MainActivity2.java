@@ -1,5 +1,7 @@
 package com.example.proyecto;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.proyecto.model.DataFormManager;
+import com.example.proyecto.model.ObjectFormManager;
 import com.example.proyecto.model.User;
 
 import org.json.JSONException;
@@ -19,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -121,9 +126,11 @@ public class MainActivity2 extends AppCompatActivity {
                         User user = new User();
                         JSONObject data = (JSONObject) result.get("data");
                         user.setUserData(data);
-                        Intent intent = new Intent(MainActivity2.this, Menu.class);
+                        Toast.makeText(MainActivity2.this, user.toString(), Toast.LENGTH_LONG);
+                        Intent intent = new Intent(MainActivity2.this, MainActivity5.class);
                         intent.putExtra("usuario", user);
                         startActivity(intent);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

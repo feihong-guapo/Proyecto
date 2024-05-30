@@ -1,5 +1,6 @@
 package com.example.proyecto;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.proyecto.model.CarAdapter;
 import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.DataFormManager;
 import com.example.proyecto.model.User;
 
 import org.json.JSONArray;
@@ -42,6 +44,8 @@ public class MarketFragment extends Fragment {
     private Button applyFilterButton;
     private User user;
 
+    private Button ayudame;
+
     private String[] carBrands = {"Toyota", "Honda", "Ford", "Chevrolet", "Bmw", "Mercedes-Benz"};
 
 
@@ -59,6 +63,13 @@ public class MarketFragment extends Fragment {
         applyFilterButton = rootView.findViewById(R.id.applyFilterButton);
         carList = new ArrayList<>();
         carAdapter = new CarAdapter(carList, getContext(), user);
+        ayudame = rootView.findViewById(R.id.button5);
+        DataFormManager.getInstance().saveData("user_id", String.valueOf(user.getUser_id()));
+        ayudame.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                next();
+            }
+            });
 
         applyFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,13 +91,22 @@ public class MarketFragment extends Fragment {
 
         return rootView;
     }
+        public void next() {
+            Intent intent = new Intent(getActivity(), Form1.class);
+            intent.putExtra("usuario", user);
+            startActivity(intent);
+
+
+
+        }
 
     public void applyFiltr() {
         String selectedBrand = brandSpinner.getSelectedItem().toString();
 
         JSONObject spinnerData = new JSONObject();
         try {
-            spinnerData.put("marca", "Bmw");
+            spinnerData.put("marca", null);
+            spinnerData.put("id", 64);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -94,6 +114,7 @@ public class MarketFragment extends Fragment {
 
         new GetFilteredResultTask().execute(spinnerData);
     }
+
 
     private class GetFilteredResultTask extends AsyncTask<JSONObject, Void, JSONArray> {
         @Override

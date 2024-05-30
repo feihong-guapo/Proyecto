@@ -1,5 +1,6 @@
 package com.example.proyecto;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +19,13 @@ public class Menu extends AppCompatActivity {
 
     private User user;
     private ImageButton btn;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
+        user = new User();
         btn = findViewById(R.id.imageButton1);
         bottomNav = findViewById(R.id.bottomNavigationView);
 
@@ -45,6 +47,7 @@ public class Menu extends AppCompatActivity {
 
             }
         });
+        bottomNav.setSelectedItemId(R.id.miHome);
     }
 
 
@@ -87,6 +90,7 @@ public class Menu extends AppCompatActivity {
                 }
 
             };
+
 
 }
 
