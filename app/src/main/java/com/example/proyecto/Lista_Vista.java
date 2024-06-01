@@ -35,7 +35,7 @@ public class Lista_Vista extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CarAdapter2 carAdapter;
     private List<Coche> carList;
-    private User user;
+    private User createdUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +46,7 @@ public class Lista_Vista extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fetchCars();
-        Intent intent = getIntent();
-        if (intent != null){
-            user = (User) intent.getSerializableExtra("usuario");
-
-            if (user != null ){
-                Toast.makeText(this, user.toString(), Toast.LENGTH_LONG);
-            }
-        }
+        createdUser = DataFormManager.getInstance().getUser();
         repetir.setOnClickListener(v -> repetir());
         menu.setOnClickListener(v -> menu());
     }
@@ -87,7 +80,7 @@ public class Lista_Vista extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
 
-                    User createdUser = DataFormManager.getInstance().getUser();
+
                     carAdapter = new CarAdapter2(carList, this, createdUser);
                     recyclerView.setAdapter(carAdapter);
                 },
@@ -97,13 +90,13 @@ public class Lista_Vista extends AppCompatActivity {
 
     private void repetir() {
         Intent intent = new Intent(this, Form1.class);
-        intent.putExtra("usuario", user);
+        intent.putExtra("usuario", createdUser);
         startActivity(intent);
     }
 
     private void menu(){
         Intent intent = new Intent(this, Menu.class);
-        intent.putExtra("usuario", user);
+        intent.putExtra("usuario", createdUser);
         startActivity(intent);
     }
 }
