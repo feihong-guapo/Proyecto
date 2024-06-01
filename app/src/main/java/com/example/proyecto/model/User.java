@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String username;
 
     private String rutaImg;
-
+    private String adminId;
 
     public User(){
 
@@ -132,7 +132,8 @@ public class User implements Serializable {
     public void setRutaImg(String rutaImg) {
         this.rutaImg = rutaImg;
     }
-
+    public String getAdminId() { return adminId;}
+    public void setAdminId(String adminId){this.adminId = adminId;}
     public String getjSonparamsReg() throws JSONException {
         JSONObject jsonParams = new JSONObject();
         jsonParams.put("password",this.password);

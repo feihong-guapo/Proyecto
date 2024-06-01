@@ -57,12 +57,24 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
         fab.setOnClickListener(view1 -> showSearchDialog());
         usersRef = FirebaseDatabase.getInstance().getReference("chats");
         currentUserId = String.valueOf(user.getUser_id());
+
         if (currentUserId != null) {
             loadChatsForCurrentUser();
         }
+
+        // Actualizar RecyclerView cuando la lista de usuarios cambie
+        usuarioAdapter.setListaUsuarios(getListaUsuarios());
+        usuarioAdapter.notifyDataSetChanged();
+        Log.d("Oskitar", getListaUsuarios().toString());
         return view;
     }
+    public List<User> getListaUsuarios() {
+        return listaUsuarios;
+    }
+    public void setListaUsuarios(List<User> listaUsuarios){
+        this.listaUsuarios = listaUsuarios;
 
+    }
 
     private void loadChatsForCurrentUser() {
         Query query = usersRef.orderByChild("participants/user" + user.getUser_id()).equalTo(true);
@@ -86,6 +98,7 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
                             listaUsuarios.add(adminUser);
                         }
                     }
+
                 }
                 usuarioAdapter.notifyDataSetChanged();
 
@@ -104,20 +117,22 @@ public class ChatFragment extends Fragment implements UserAdapter.OnUserClickLis
     }
 
 
-
     @Override
     public void onUserClicked(User user) {
-        ChatVer chatDetailFragment = new ChatVer();
-        Bundle args = new Bundle();
-        args.putString("userId", Integer.toString(0));  // Assuming User has an ID field or similar
-        chatDetailFragment.setArguments(args);
+        if (user != null) {
+            ChatVer chatDetailFragment = new ChatVer();
+            Bundle args = new Bundle();
+            args.putSerializable("usuario", user);
+            chatDetailFragment.setArguments(args);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragment, chatDetailFragment)  // Assuming there is a container in your layout
-                .addToBackStack(null)  // Adds the transaction to the back stack
-                .commit();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.flFragment, chatDetailFragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Log.e("ChatFragment", "El usuario es nulo");
+        }
     }
-
     private void showSearchDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialogs_search, null);

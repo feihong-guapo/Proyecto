@@ -3,6 +3,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.proyecto.model.Coche;
-import com.example.proyecto.model.DataFormManager;
 import com.example.proyecto.model.User;
 import com.google.common.reflect.TypeToken;
 //import com.google.firebase.firestore.auth.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -33,7 +36,9 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -60,7 +65,6 @@ public class CarDetailFragment2 extends Fragment {
     private TextView maxLCons;
     private TextView minLCons;
     private User user;
-    private User createdUser;
     private Coche coche;
 
     private int id_conc;
@@ -79,7 +83,7 @@ public class CarDetailFragment2 extends Fragment {
     private int numberOfFiles;
 
     private int currentImageIndex = 0;
-
+    private FirebaseDatabase firebaseDatabase;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -143,7 +147,7 @@ public class CarDetailFragment2 extends Fragment {
             minLCons.setText(coche.getMotor().getConsumoMixtoMinL() + " L");
             toggleLike(rootView.findViewById(R.id.imageButton1));
             id_conc = coche.getId_concesionario();
-            createdUser = DataFormManager.getInstance().getUser();
+
             msgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -279,7 +283,49 @@ public class CarDetailFragment2 extends Fragment {
     }
 
     private void openChat() {
+        DatabaseReference chatsRef = firebaseDatabase.getReference("chats");
 
+        // Obtener los IDs de usuario y de administrador
+        String userId = String.valueOf(user.getUser_id());
+        String adminId = String.valueOf(coche.getId_concesionario());
+
+        // Crear el chatId combinando userId y adminId
+        String chatId = "chat" + userId + "_" + adminId;
+
+        // Crear una estructura de datos para el chat
+        Map<String, Object> chatData = new HashMap<>();
+        chatData.put("participants", new HashMap<String, Boolean>() {{
+            put("user" + userId, true);
+            put("admin" + adminId, true);
+        }});
+
+        // Crear un HashMap para el mensaje inicial
+        Map<String, Object> message = new HashMap<>();
+        message.put("text", "Welcome to the new chat!");
+        message.put("sender", "system");
+        message.put("timestamp", ServerValue.TIMESTAMP);
+
+        // Obtener el HashMap existente de mensajes, si existe
+        Map<String, Object> messagesMap = new HashMap<>();
+        Object existingMessages = chatData.get("messages");
+        if (existingMessages instanceof Map) {
+            messagesMap = (Map<String, Object>) existingMessages;
+        }
+
+        // Agregar el mensaje inicial al HashMap de mensajes
+        messagesMap.put("message1", message);
+
+        // Poner el HashMap actualizado de mensajes en el mapa de datos del chat
+        chatData.put("messages", messagesMap);
+
+        // Guardar el nuevo chat en Firebase
+        chatsRef.child(chatId).setValue(chatData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("NewChat", "Chat created successfully!");
+                    // Después de que se haya creado el chat en Firebase, inserta el registro de chat en tu servidor PHP
+                    new InsertChatTask().execute();
+                })
+                .addOnFailureListener(e -> Log.d("NewChat", "Failed to create chat.", e));
     }
 
     private void showPreviousImage() {
@@ -323,7 +369,7 @@ public class CarDetailFragment2 extends Fragment {
 
             try {
                 // Create the URL connection
-                URL url = new URL("http://20.90.95.76/newLike.php" + "?id_usuario=" + createdUser.getUser_id() + "&id_coche=" + coche.getId_coche());
+                URL url = new URL("http://20.90.95.76/newLike.php" + "?id_usuario=" + user.getUser_id() + "&id_coche=" + coche.getId_coche());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -333,7 +379,7 @@ public class CarDetailFragment2 extends Fragment {
                 // Send JSON data to the server
                 OutputStream os = conn.getOutputStream();
                 OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
-                String datos = createdUser.getjSonparamsReg();
+                String datos = user.getjSonparamsReg();
                 writer.write(datos);
                 writer.flush();
                 writer.close();
@@ -435,6 +481,53 @@ public class CarDetailFragment2 extends Fragment {
             } else {
                 // Handle error if any
                 Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public class InsertChatTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                URL url = new URL("http://20.90.95.76/insertChat.php");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setDoOutput(true);
+                String userId = String.valueOf(user.getUser_id());
+                String adminId = String.valueOf(coche.getId_concesionario());
+
+                // Crear el chatId combinando userId y adminId
+                String chatId = "chat" + userId + "_" + adminId;
+                String postData = "user_id=" + userId + "&id_concesionario=" + adminId + "&referencia=" + chatId;
+
+                OutputStream os = conn.getOutputStream();
+                os.write(postData.getBytes());
+                os.flush();
+                os.close();
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
+                }
+                br.close();
+                conn.disconnect();
+
+                return response.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                Toast.makeText(getContext(), "Chat creado con éxito: " + result, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Error al crear el chat", Toast.LENGTH_LONG).show();
             }
         }
     }

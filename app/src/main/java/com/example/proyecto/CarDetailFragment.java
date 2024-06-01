@@ -1,8 +1,10 @@
+
 package com.example.proyecto;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,9 @@ import com.example.proyecto.model.Coche;
 import com.example.proyecto.model.User;
 import com.google.common.reflect.TypeToken;
 //import com.google.firebase.firestore.auth.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -32,13 +37,11 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+
 
 public class CarDetailFragment extends Fragment {
 
@@ -63,7 +66,7 @@ public class CarDetailFragment extends Fragment {
 
     private int id_conc;
 
-    private Button mostrar;
+    private Button  mostrar;
 
     private ImageButton likeButton;
 
@@ -77,6 +80,7 @@ public class CarDetailFragment extends Fragment {
     private int numberOfFiles;
 
     private int currentImageIndex = 0;
+    private FirebaseDatabase firebaseDatabase;
 
 
     @SuppressLint("MissingInflatedId")
@@ -85,6 +89,7 @@ public class CarDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflar el diseño del fragmento
         View rootView = inflater.inflate(R.layout.cardetail, container, false);
+        firebaseDatabase = FirebaseDatabase.getInstance();
 //        user = new User();
 //        coche = new Coche();
         // Obtener los datos del Argumento
@@ -140,7 +145,7 @@ public class CarDetailFragment extends Fragment {
             maxLCons.setText(coche.getMotor().getConsumoMixtoMaxL() + " L");
             minLCons.setText(coche.getMotor().getConsumoMixtoMinL() + " L");
             toggleLike(rootView.findViewById(R.id.imageButton1));
-            id_conc = coche.getId_concesionario();
+            id_conc= coche.getId_concesionario();
 
             msgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -152,7 +157,7 @@ public class CarDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        if (currentImageIndex != 0) {
+                        if (currentImageIndex != 0){
                             showPreviousImage();
                         }
 
@@ -165,7 +170,7 @@ public class CarDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        if (currentImageIndex != 4) {
+                        if (currentImageIndex != 4){
                             showPreviousImage();
                         }
 
@@ -195,7 +200,7 @@ public class CarDetailFragment extends Fragment {
                 }
             });
             imageUrls = new ArrayList<>();
-            if (coche.getImgs_src() != null) {
+            if(coche.getImgs_src() != null){
 
                 getImageRoutes();
                 Glide.with(this)
@@ -204,6 +209,9 @@ public class CarDetailFragment extends Fragment {
             }
 
         }
+
+
+
 
 
         mostrar.setOnClickListener(new View.OnClickListener() {
@@ -227,27 +235,11 @@ public class CarDetailFragment extends Fragment {
             }
         });
 
-        if (motor.getVisibility() == View.VISIBLE) {
-            motor.setVisibility(View.GONE);
-            T1.setVisibility(View.GONE);
-            T2.setVisibility(View.GONE);
-            T3.setVisibility(View.GONE);
-            maxLCons.setVisibility(View.GONE);
-            minLCons.setVisibility(View.GONE);
-        } else {
-            motor.setVisibility(View.VISIBLE);
-            T1.setVisibility(View.VISIBLE);
-            T2.setVisibility(View.VISIBLE);
-            T3.setVisibility(View.VISIBLE);
-            maxLCons.setVisibility(View.VISIBLE);
-            minLCons.setVisibility(View.VISIBLE);
-        }
 
         return rootView;
 
     }
-
-    private void shareCarDetails() {
+    private void shareCarDetails () {
         String shareText = "¡Mira este coche increíble!  Más información en: 20.90.95.76/AutoEpic/";
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -270,24 +262,65 @@ public class CarDetailFragment extends Fragment {
 //
 //        }
 
-    public void toggleLike(View view) {
+    public void toggleLike (View view){
         int iconResId = coche.isLiked() ? R.drawable.baseline_favorite_red_24 : R.drawable.baseline_favorite_border_while_24;
         likeButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), iconResId));
 
     }
 
     private void openChat() {
+        DatabaseReference chatsRef = firebaseDatabase.getReference("chats");
 
+        // Obtener los IDs de usuario y de administrador
+        String userId = String.valueOf(user.getUser_id());
+        String adminId = String.valueOf(coche.getId_concesionario());
+
+        // Crear el chatId combinando userId y adminId
+        String chatId = "chat" + userId + "_" + adminId;
+
+        // Crear una estructura de datos para el chat
+        Map<String, Object> chatData = new HashMap<>();
+        chatData.put("participants", new HashMap<String, Boolean>() {{
+            put("user" + userId, true);
+            put("admin" + adminId, true);
+        }});
+
+        // Crear un HashMap para el mensaje inicial
+        Map<String, Object> message = new HashMap<>();
+        message.put("text", "Welcome to the new chat!");
+        message.put("sender", "system");
+        message.put("timestamp", ServerValue.TIMESTAMP);
+
+        // Obtener el HashMap existente de mensajes, si existe
+        Map<String, Object> messagesMap = new HashMap<>();
+        Object existingMessages = chatData.get("messages");
+        if (existingMessages instanceof Map) {
+            messagesMap = (Map<String, Object>) existingMessages;
+        }
+
+        // Agregar el mensaje inicial al HashMap de mensajes
+        messagesMap.put("message1", message);
+
+        // Poner el HashMap actualizado de mensajes en el mapa de datos del chat
+        chatData.put("messages", messagesMap);
+
+        // Guardar el nuevo chat en Firebase
+        chatsRef.child(chatId).setValue(chatData)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("NewChat", "Chat created successfully!");
+                    // Después de que se haya creado el chat en Firebase, inserta el registro de chat en tu servidor PHP
+                    new InsertChatTask().execute();
+                })
+                .addOnFailureListener(e -> Log.d("NewChat", "Failed to create chat.", e));
     }
-
-    private void showPreviousImage() {
+    private void showPreviousImage () {
         if (!imageUrls.isEmpty()) {
             currentImageIndex = (currentImageIndex - 1 + imageUrls.size()) % imageUrls.size();
             Picasso.get().load(imageUrls.get(currentImageIndex)).into(carImageView);
         }
     }
 
-    private void showNextImage() {
+    private void showNextImage () {
         if (!imageUrls.isEmpty()) {
             currentImageIndex = (currentImageIndex + 1) % imageUrls.size();
             Picasso.get().load(imageUrls.get(currentImageIndex)).into(carImageView);
@@ -307,9 +340,10 @@ public class CarDetailFragment extends Fragment {
 //        }
 
 
-    private void getImageRoutes() {
-        for (int i = 0; i < 4; i++) {
-            String str = coche.getImgs_src() + "/" + (i + 1) + ".png";
+
+    private void getImageRoutes(){
+        for(int i = 0; i <4; i++){
+            String str = coche.getImgs_src() + "/"+ (i + 1) + ".png";
             imageUrls.add(str);
 
         }
@@ -317,7 +351,7 @@ public class CarDetailFragment extends Fragment {
 
     public class InsertDataTask extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(Void... voids) {
+        protected String doInBackground(Void ... voids) {
 
             try {
                 // Create the URL connection
@@ -376,7 +410,6 @@ public class CarDetailFragment extends Fragment {
 
 
     }
-
     public class deleteDataTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
@@ -435,5 +468,52 @@ public class CarDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+        public class InsertChatTask extends AsyncTask<Void, Void, String> {
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    URL url = new URL("http://20.90.95.76/insertChat.php");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    conn.setDoOutput(true);
+                    String userId = String.valueOf(user.getUser_id());
+                    String adminId = String.valueOf(coche.getId_concesionario());
+
+                    // Crear el chatId combinando userId y adminId
+                    String chatId = "chat" + userId + "_" + adminId;
+                    String postData = "user_id=" + userId + "&id_concesionario=" + adminId + "&referencia=" + chatId;
+
+                    OutputStream os = conn.getOutputStream();
+                    os.write(postData.getBytes());
+                    os.flush();
+                    os.close();
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line);
+                    }
+                    br.close();
+                    conn.disconnect();
+
+                    return response.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (result != null) {
+                    Toast.makeText(getContext(), "Chat creado con éxito: " + result, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Error al crear el chat", Toast.LENGTH_LONG).show();
+                }
+            }
     }
 }

@@ -3,6 +3,7 @@ package com.example.proyecto.model;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -46,9 +49,11 @@ public class ChatVer extends Fragment {
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    private ChildEventListener childEventListener;
     private static final int PHOTO_SEND = 1;
     private static final int PHOTO_PERFIL = 2;
     private String fotoPerfilCadena;
+    private User user;
 
     @Nullable
     @Override
@@ -63,51 +68,51 @@ public class ChatVer extends Fragment {
         btnEnviarFoto = view.findViewById(R.id.btnEnviarFoto);
         fotoPerfilCadena = "";
 
-        // Retrieve passed arguments from the Activity or previous Fragment
-        Bundle args = getArguments();
-        String nombreUsuario = args != null ? args.getString("nombreUsuario") : "Unknown";
-        String imageUrl = args != null ? args.getString("imageUrl") : "";
-
-        nombre.setText(nombreUsuario);
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Glide.with(this).load(imageUrl).into(fotoPerfil);
-            fotoPerfilCadena = imageUrl;
-        } else {
-            // Set a default or placeholder image if no imageUrl is provided
-            Glide.with(this).load(R.drawable.user_circle).into(fotoPerfil); // Ensure you have a default_profile drawable
+        // Obtiene el ID del admin del Bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            user = (User) bundle.getSerializable("usuario");
         }
-
+        String adminId = user != null ? user.getAdminId() : "";
+        Log.d("Oskitar", "ID del admin: " + adminId);
+        String userId = user != null ? String.valueOf(user.getUser_id()) : "";
+        Log.d("Oskitar", "ID del usuario: " + userId);
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("/");//Sala de chat (nombre)
+        databaseReference = database.getReference("chats").child("chat1").child("messages");
         storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference("chat_images");
 
         adapter = new AdapterMensajes(getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvMensajes.setLayoutManager(layoutManager);
         rvMensajes.setAdapter(adapter);
 
-        setupButtons();
-
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        // Realiza una consulta para encontrar la conversación que contiene al usuario y al admin correspondiente
+        DatabaseReference chatsRef = FirebaseDatabase.getInstance().getReference("chats");
+        Query query = chatsRef.orderByChild("participants/user" + userId).equalTo(true);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                MensajeRecibir message = dataSnapshot.getValue(MensajeRecibir.class);
-                adapter.addMensaje(message);
-                setScrollbar();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
+                    if (chatSnapshot.child("participants/admin" + adminId).getValue(Boolean.class) != null) {
+                        DatabaseReference chatsRef = FirebaseDatabase.getInstance().getReference("chats");
+                        String chatId = "chat" + userId + "_" + adminId;
+                        // Actualiza la referencia de la base de datos para apuntar a los mensajes de la conversación
+                        databaseReference = database.getReference("chats").child(chatId).child("messages");
+                        // Carga los mensajes de esta conversación
+                        attachDatabaseReadListener();
+                        break;
+                    }
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Maneja errores aquí
+            }
         });
+
+        setupButtons();
 
         return view;
     }
@@ -123,15 +128,44 @@ public class ChatVer extends Fragment {
         });
 
         btnEnviarFoto.setOnClickListener(view -> selectImage(PHOTO_SEND));
-
         fotoPerfil.setOnClickListener(view -> selectImage(PHOTO_PERFIL));
     }
 
     private void selectImage(int requestCode) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/jpeg");
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(Intent.createChooser(intent, "Selecciona una foto"), requestCode);
+        // Implementa la lógica para seleccionar una imagen
+    }
+
+    private void attachDatabaseReadListener() {
+        if (childEventListener == null) {
+            childEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    MensajeRecibir message = dataSnapshot.getValue(MensajeRecibir.class);
+                    adapter.addMensaje(message);
+                    setScrollbar();
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {}
+            };
+            databaseReference.addChildEventListener(childEventListener);
+        }
+    }
+
+    private void detachDatabaseReadListener() {
+        if (childEventListener != null) {
+            databaseReference.removeEventListener(childEventListener);
+            childEventListener = null;
+        }
     }
 
     private void setScrollbar() {
@@ -139,36 +173,8 @@ public class ChatVer extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK && data != null) {
-            Uri uri = data.getData();
-            if (uri != null) {
-                handleImageUpload(requestCode, uri);
-            }
-        }
-    }
-
-    private void handleImageUpload(int requestCode, Uri uri) {
-        StorageReference photoRef = storageReference.child(uri.getLastPathSegment());
-        photoRef.putFile(uri).addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uriResult -> {
-            String imageUrl = uriResult.toString();
-            if (requestCode == PHOTO_SEND) {
-                sendMessage("Sent a photo", imageUrl, "2");
-            } else if (requestCode == PHOTO_PERFIL) {
-                updateProfileImage(imageUrl);
-            }
-        }));
-    }
-
-    private void sendMessage(String text, String imageUrl, String messageType) {
-        MensajeEnviar message = new MensajeEnviar(text, imageUrl, nombre.getText().toString(), fotoPerfilCadena, messageType, ServerValue.TIMESTAMP);
-        databaseReference.push().setValue(message);
-    }
-
-    private void updateProfileImage(String imageUrl) {
-        fotoPerfilCadena = imageUrl;
-        Glide.with(this).load(imageUrl).into(fotoPerfil);
-        sendMessage("Updated profile picture", imageUrl, "2");
+    public void onDestroy() {
+        super.onDestroy();
+        detachDatabaseReadListener();
     }
 }

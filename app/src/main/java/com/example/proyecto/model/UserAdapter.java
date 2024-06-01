@@ -68,7 +68,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UsuarioViewHol
     public interface OnUserClickListener {
         void onUserClicked(User user);
     }
-
+    public void setListaUsuarios(List<User> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+        notifyDataSetChanged();
+    }
     public void filter(String text) {
         listaUsuarios.clear();
         if (text.isEmpty()) {
