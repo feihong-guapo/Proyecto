@@ -9,10 +9,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:label="@string/app_name"
+        android:label="AutoEpic"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto"
+        android:icon="@drawable/group_6"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
