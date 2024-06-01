@@ -130,8 +130,8 @@ public class MainActivity2 extends AppCompatActivity {
                         } else {
                             Log.e("MainActivity2", "Error al crear el usuario.");
                         }
-
-                        Intent intent = new Intent(MainActivity2.this, Form1.class);
+                        Intent intent = new Intent(MainActivity2.this, Menu.class);
+                        intent.putExtra("usuario", createdUser);
                         startActivity(intent);
                     }
                 } catch (JSONException e) {

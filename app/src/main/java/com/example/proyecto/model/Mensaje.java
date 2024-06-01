@@ -7,7 +7,6 @@ public class Mensaje {
     private String nombre;
     private String fotoPerfil;
     private String type_mensaje;
-
     public Mensaje() {
     }
 
@@ -65,4 +64,5 @@ public class Mensaje {
     public void setUrlFoto(String urlFoto) {
         this.urlFoto = urlFoto;
     }
+
 }

@@ -2,7 +2,6 @@ package com.example.proyecto;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -19,12 +18,15 @@ import com.example.proyecto.model.CarAdapter2;
 import com.example.proyecto.model.Coche;
 import com.example.proyecto.model.DataFormManager;
 import com.example.proyecto.model.User;
-import com.example.proyecto.model.UserFormManager;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Lista_Vista extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class Lista_Vista extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CarAdapter2 carAdapter;
     private List<Coche> carList;
-
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,14 @@ public class Lista_Vista extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         fetchCars();
+        Intent intent = getIntent();
+        if (intent != null){
+            user = (User) intent.getSerializableExtra("usuario");
 
+            if (user != null ){
+                Toast.makeText(this, user.toString(), Toast.LENGTH_LONG);
+            }
+        }
         repetir.setOnClickListener(v -> repetir());
         menu.setOnClickListener(v -> menu());
     }
@@ -58,22 +67,29 @@ public class Lista_Vista extends AppCompatActivity {
                 "&tiempo=" + DataFormManager.getInstance().getData("selectedDailyType") +
                 "&plazas=" + DataFormManager.getInstance().getData("selectedPlazasType") +
                 "&uso=" + DataFormManager.getInstance().getData("selectedZoneType") +
-                "&precioMaximo=" + DataFormManager.getInstance().getData("selectedPriceType") +
-                "&id_user=" + userId;
+                "&precioMaximo=" + DataFormManager.getInstance().getData("selectedPriceType")+
+                "&is_user= "+ userId;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
-                    Log.d("Response", response);  // Log the complete response
-                    Type listType = new TypeToken<List<Coche>>() {
-                    }.getType();
+//                    Type listType = new TypeToken<List<Coche>>(){}.getType();
+//                    carList = new Gson().fromJson(response, listType);
+                    List<Coche> carList = new ArrayList<>();
                     try {
-                        carList = new Gson().fromJson(response, listType);
-                        carAdapter = new CarAdapter2(carList, this);
-                        recyclerView.setAdapter(carAdapter);
-                    } catch (JsonSyntaxException e) {
-                        Log.e("GsonError", "Failed to parse JSON", e);
-                        Toast.makeText(this, "Failed to parse data", Toast.LENGTH_LONG).show();
+                        JSONArray result = new JSONArray(response);
+                        for (int i = 0; i < result.length(); i++) {
+                            JSONObject carJson = result.getJSONObject(i);
+                            Coche car = new Coche();
+                            car.setDataJson(carJson);
+                            carList.add(car);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
+
+                    User createdUser = DataFormManager.getInstance().getUser();
+                    carAdapter = new CarAdapter2(carList, this, createdUser);
+                    recyclerView.setAdapter(carAdapter);
                 },
                 error -> Toast.makeText(Lista_Vista.this, "Error fetching data", Toast.LENGTH_LONG).show());
         queue.add(stringRequest);
@@ -81,18 +97,13 @@ public class Lista_Vista extends AppCompatActivity {
 
     private void repetir() {
         Intent intent = new Intent(this, Form1.class);
+        intent.putExtra("usuario", user);
         startActivity(intent);
     }
 
-    private void menu() {
-        User user = DataFormManager.getInstance().getUser();
-        if (user != null) {
-            Intent intent = new Intent(this, Menu.class);
-            intent.putExtra("usuario", user);
-            startActivity(intent);
-        } else {
-            Log.e("Lista_Vista", "El objeto User es null");
-            Toast.makeText(this, "Usuario no disponible", Toast.LENGTH_SHORT).show();
-        }
+    private void menu(){
+        Intent intent = new Intent(this, Menu.class);
+        intent.putExtra("usuario", user);
+        startActivity(intent);
     }
 }

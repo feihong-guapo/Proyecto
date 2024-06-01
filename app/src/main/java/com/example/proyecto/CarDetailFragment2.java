@@ -1,9 +1,8 @@
-
 package com.example.proyecto;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,22 +12,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.DataFormManager;
 import com.example.proyecto.model.User;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
+import com.google.common.reflect.TypeToken;
+//import com.google.firebase.firestore.auth.User;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CarDetailFragment2 extends Fragment {
 
@@ -49,26 +60,49 @@ public class CarDetailFragment2 extends Fragment {
     private TextView maxLCons;
     private TextView minLCons;
     private User user;
+    private User createdUser;
     private Coche coche;
 
+    private int id_conc;
+
+    private Button mostrar;
+
     private ImageButton likeButton;
-    private ImageButton buttonChat;
-    private FirebaseDatabase firebaseDatabase;
+
+    private ImageButton msgBtn;
+    private Button buttonNext;
+    private Button buttonAnt;
+
+    private String[] imageRoutes;
+    private List<String> imageUrls;
+
+    private int numberOfFiles;
+
+    private int currentImageIndex = 0;
+
+
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflar el diseño del fragmento
-        View rootView = inflater.inflate(R.layout.fragment_car_detail2, container, false);
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        View rootView = inflater.inflate(R.layout.cardetail, container, false);
+//        user = new User();
+//        coche = new Coche();
         // Obtener los datos del Argumento
         Bundle arguments = getArguments();
         if (arguments != null) {
             user = (User) arguments.getSerializable("user");
             coche = (Coche) arguments.getSerializable("coche");
             String modelName = arguments.getString("modelName");
-            String brand = arguments.getString("brand");
+//            String brand = arguments.getString("brand");
+//            if (!imageUrls.isEmpty()) {
+////                Picasso.get().load(imageUrls.get(currentImageIndex)).into(carImageView);
+////            }
+
 
             // Inicializar vistas
+            mostrar = rootView.findViewById(R.id.button15);
             carImageView = rootView.findViewById(R.id.carImageView);
             modelNameTextView = rootView.findViewById(R.id.modelTextView);
             brandTextView = rootView.findViewById(R.id.brandTextView);
@@ -86,8 +120,10 @@ public class CarDetailFragment2 extends Fragment {
             maxLCons = rootView.findViewById(R.id.textViewConsMax);
             minLCons = rootView.findViewById(R.id.textViewConsMin);
             likeButton = rootView.findViewById(R.id.imageButton1);
-            toggleLike(rootView.findViewById(R.id.imageButton1));
-            buttonChat = rootView.findViewById(R.id.imageButton21);
+//            toggleLike(rootView.findViewById(R.id.imageButton1));
+            buttonNext = rootView.findViewById(R.id.buttonNext);
+            buttonAnt = rootView.findViewById(R.id.buttonAnt);
+            msgBtn = rootView.findViewById(R.id.msgBtn);
 //        int carImageResource = getCarImageResource(modelName);
 //        carImageView.setImageResource(carImageResource);
             modelNameTextView.setText(coche.getModelo());
@@ -105,103 +141,189 @@ public class CarDetailFragment2 extends Fragment {
             motor.setText(coche.getMotor().getTipo());
             maxLCons.setText(coche.getMotor().getConsumoMixtoMaxL() + " L");
             minLCons.setText(coche.getMotor().getConsumoMixtoMinL() + " L");
-            Button backButton = rootView.findViewById(R.id.button6);
-            backButton.setOnClickListener(new View.OnClickListener() {
+            toggleLike(rootView.findViewById(R.id.imageButton1));
+            id_conc = coche.getId_concesionario();
+            createdUser = DataFormManager.getInstance().getUser();
+            msgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Finalizar la actividad actual para volver a la actividad anterior
-                    getActivity().finish();
+                    openChat();
                 }
             });
-            buttonChat.setOnClickListener(new View.OnClickListener() {
+            buttonAnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    createNewChatInFirebase();
+                    try {
+                        if (currentImageIndex != 0) {
+                            showPreviousImage();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
+            buttonNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (currentImageIndex != 4) {
+                            showPreviousImage();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
                         if (coche.isLiked()) {
                             coche.setLiked(false);
-
+                            new deleteDataTask().execute();
                         } else {
                             coche.setLiked(true);
+                            new InsertDataTask().execute();
 
                         }
                         toggleLike(rootView.findViewById(R.id.imageButton1));
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             });
+            imageUrls = new ArrayList<>();
+            if (coche.getImgs_src() != null) {
+
+                getImageRoutes();
+                Glide.with(this)
+                        .load(imageUrls.get(currentImageIndex))
+                        .into(carImageView);
+            }
+
+        }
 
 
+        mostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (motor.getVisibility() == View.VISIBLE) {
+                    motor.setVisibility(View.GONE);
+                    T1.setVisibility(View.GONE);
+                    T2.setVisibility(View.GONE);
+                    T3.setVisibility(View.GONE);
+                    maxLCons.setVisibility(View.GONE);
+                    minLCons.setVisibility(View.GONE);
+                } else {
+                    motor.setVisibility(View.VISIBLE);
+                    T1.setVisibility(View.VISIBLE);
+                    T2.setVisibility(View.VISIBLE);
+                    T3.setVisibility(View.VISIBLE);
+                    maxLCons.setVisibility(View.VISIBLE);
+                    minLCons.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        if (motor.getVisibility() == View.VISIBLE) {
+            motor.setVisibility(View.GONE);
+            T1.setVisibility(View.GONE);
+            T2.setVisibility(View.GONE);
+            T3.setVisibility(View.GONE);
+            maxLCons.setVisibility(View.GONE);
+            minLCons.setVisibility(View.GONE);
+        } else {
+            motor.setVisibility(View.VISIBLE);
+            T1.setVisibility(View.VISIBLE);
+            T2.setVisibility(View.VISIBLE);
+            T3.setVisibility(View.VISIBLE);
+            maxLCons.setVisibility(View.VISIBLE);
+            minLCons.setVisibility(View.VISIBLE);
         }
 
         return rootView;
-    }
-
-    private void guardarLikeOEliminarlo() {
-        if(coche.isLiked()){
-            new InsertDataTask().execute();
-        }else{
-
-
-        }
 
     }
+
+    private void shareCarDetails() {
+        String shareText = "¡Mira este coche increíble!  Más información en: 20.90.95.76/AutoEpic/";
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Intent chooser = Intent.createChooser(shareIntent, "Compartir usando");
+        startActivity(chooser);
+    }
+
+
+//        private void guardarLikeOEliminarlo () {
+//            if (coche.isLiked()) {
+//
+//            } else {
+//
+//
+//            }
+//
+//        }
 
     public void toggleLike(View view) {
-        coche.setLiked(!coche.isLiked()); // Invierte el estado de "like"
-        // Cambiar el color del botón según el estado de "like"
-        if (coche.isLiked()) {
-            ((ImageButton) view).setImageResource(R.drawable.corazon);
-        } else {
-            ((ImageButton) view).setImageResource(R.drawable.corazon_gris);
+        int iconResId = coche.isLiked() ? R.drawable.baseline_favorite_red_24 : R.drawable.baseline_favorite_border_while_24;
+        likeButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), iconResId));
+
+    }
+
+    private void openChat() {
+
+    }
+
+    private void showPreviousImage() {
+        if (!imageUrls.isEmpty()) {
+            currentImageIndex = (currentImageIndex - 1 + imageUrls.size()) % imageUrls.size();
+            Picasso.get().load(imageUrls.get(currentImageIndex)).into(carImageView);
         }
-        // Guardar el estado del "like" en la base de datos o servidor
-
     }
 
-    private void createNewChatInFirebase() {
-        DatabaseReference chatsRef = firebaseDatabase.getReference("chats");
-
-        // Crear un nuevo ID de chat o usar un método para generar uno
-        String chatId = chatsRef.push().getKey();
-
-        // Crear una estructura de datos para el chat
-        Map<String, Object> chatData = new HashMap<>();
-        chatData.put("participants", new HashMap<String, Boolean>() {{
-            put("user" + user.getUser_id(), true);
-            put("admin", true);
-        }});
-
-        // Opcionalmente, inicializar el chat con un mensaje de bienvenida
-        Map<String, Object> message = new HashMap<>();
-        message.put("text", "Welcome to the new chat!");
-        message.put("sender", "system");
-        message.put("timestamp", ServerValue.TIMESTAMP);
-
-        // Agregar el mensaje inicial al chat
-        chatData.put("messages", new HashMap<String, Object>() {{
-            put("message1", message);
-        }});
-
-        // Guardar el nuevo chat en Firebase
-        chatsRef.child(chatId).setValue(chatData)
-                .addOnSuccessListener(aVoid -> Log.d("NewChat", "Chat created successfully!"))
-                .addOnFailureListener(e -> Log.d("NewChat", "Failed to create chat.", e));
+    private void showNextImage() {
+        if (!imageUrls.isEmpty()) {
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.size();
+            Picasso.get().load(imageUrls.get(currentImageIndex)).into(carImageView);
+        }
     }
-    private class InsertDataTask extends AsyncTask<Void, Void, String> {
+
+//        public void toggleLike (View view){
+//            coche.setLiked(!coche.isLiked()); // Invierte el estado de "like"
+//            // Cambiar el color del botón según el estado de "like"
+//            if (coche.isLiked()) {
+//                ((ImageButton) view).setImageResource(R.drawable.corazon);
+//            } else {
+//                ((ImageButton) view).setImageResource(R.drawable.corazon_gris);
+//            }
+//            // Guardar el estado del "like" en la base de datos o servidor
+//
+//        }
+
+
+    private void getImageRoutes() {
+        for (int i = 0; i < 4; i++) {
+            String str = coche.getImgs_src() + "/" + (i + 1) + ".png";
+            imageUrls.add(str);
+
+        }
+    }
+
+    public class InsertDataTask extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(Void ... voids) {
+        protected String doInBackground(Void... voids) {
 
             try {
                 // Create the URL connection
-                URL url = new URL("http://20.90.95.76/guardarLike.php" + "?id_usuario=" + user.getUser_id() + "&id_coche=" + coche.getId_coche());
+                URL url = new URL("http://20.90.95.76/newLike.php" + "?id_usuario=" + createdUser.getUser_id() + "&id_coche=" + coche.getId_coche());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -211,7 +333,7 @@ public class CarDetailFragment2 extends Fragment {
                 // Send JSON data to the server
                 OutputStream os = conn.getOutputStream();
                 OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
-                String datos = user.getjSonparamsReg();
+                String datos = createdUser.getjSonparamsReg();
                 writer.write(datos);
                 writer.flush();
                 writer.close();
@@ -253,6 +375,67 @@ public class CarDetailFragment2 extends Fragment {
                 Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
             }
         }
+
+
     }
 
+    public class deleteDataTask extends AsyncTask<Void, Void, String> {
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            try {
+                // Create the URL connection
+                URL url = new URL("http://20.90.95.76/deleteLike.php" + "?id_usuario=" + user.getUser_id() + "&id_coche=" + coche.getId_coche());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("DELETE");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setDoOutput(true);
+
+                // Send JSON data to the server
+                OutputStream os = conn.getOutputStream();
+                OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
+                String datos = user.getjSonparamsReg();
+                writer.write(datos);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                // Read the server response
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
+                }
+                br.close();
+
+                conn.disconnect();
+
+                return response.toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if (result != null) {
+                {
+                    if (result.equals("KO")) {
+                        Toast.makeText(getContext(), "Error al Eliminar el like", Toast.LENGTH_LONG).show();
+                    } else {
+
+                        Toast.makeText(getContext(), "like Elimindo correctamente", Toast.LENGTH_LONG).show();
+
+
+                    }
+                }
+            } else {
+                // Handle error if any
+                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

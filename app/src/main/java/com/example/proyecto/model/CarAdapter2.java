@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto.CarDetailActivity;
+import com.example.proyecto.CarDetailFragment2;
 import com.example.proyecto.R;
 
 import java.util.List;
@@ -45,7 +47,12 @@ public class CarAdapter2 extends RecyclerView.Adapter<CarAdapter2.CarViewHolder>
         holder.modelNameTextView.setText(car.getModelo());
         holder.brandTextView.setText(car.getMarca());
         holder.yearTextView.setText(String.valueOf(car.getPrecioEuros()));
-
+        if (car.getImgs_src() != null){
+            String rutaComp = car.getImgs_src() + "/1.png";
+            Glide.with(context)
+                    .load(rutaComp)
+                    .into(holder.carImageView);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +60,7 @@ public class CarAdapter2 extends RecyclerView.Adapter<CarAdapter2.CarViewHolder>
 
                 Intent intent = new Intent(context, CarDetailActivity.class);
                 intent.putExtra("coche", selectedCar);
+                intent.putExtra("usuario", user);
                 context.startActivity(intent);
             }
         });

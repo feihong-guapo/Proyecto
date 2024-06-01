@@ -5,17 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="50dp"
-        android:layout_height="26dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/msgBtn"
+        android:layout_width="64dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="216dp"
+        android:src="@drawable/baseline_message_24"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.977" />
+        app:layout_constraintVertical_bias="0.041" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -27,14 +28,15 @@
 
     <ImageView
         android:id="@+id/carImageView"
-        android:layout_width="307dp"
-        android:layout_height="182dp"
+        android:layout_width="248dp"
+        android:layout_height="145dp"
         android:layout_marginBottom="76dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintVertical_bias="0.402" />
 
     <TextView
         android:id="@+id/brandTextView"
@@ -69,10 +71,10 @@
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintHorizontal_bias="0.934"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.781" />
+        app:layout_constraintVertical_bias="0.704" />
 
     <TextView
         android:id="@+id/Prize"
@@ -85,6 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.952" />
+
 
     <Button
         android:id="@+id/button15"
@@ -188,10 +191,10 @@
         android:text="motor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.458"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.82" />
+        app:layout_constraintVertical_bias="0.835" />
 
     <TextView
         android:id="@+id/combustible"
@@ -264,6 +267,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.872" />
+
+    <Button
+        android:id="@+id/buttonNext"
+        android:layout_width="67dp"
+        android:layout_height="56dp"
+        app:icon="@drawable/baseline_arrow_forward_ios_24"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.284" />
+
+    <Button
+        android:id="@+id/buttonAnt"
+        android:layout_width="64dp"
+        android:layout_height="53dp"
+        app:icon="@drawable/baseline_arrow_back_ios_24"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.037"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.291" />
+
+    <ImageButton
+        android:id="@+id/imageButton21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.63"
+        app:srcCompat="@drawable/baseline_share_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

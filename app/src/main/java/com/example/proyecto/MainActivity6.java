@@ -1,156 +1,128 @@
 package com.example.proyecto;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+
+import com.example.proyecto.model.ImageAdapter;
+import com.example.proyecto.model.Medidas;
 import com.example.proyecto.model.User;
 
-public class MainActivity6 extends AppCompatActivity {
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE
+import java.io.File;
+
+
+public class MainActivity6 extends Fragment {
+
+    private User usuario;
+    private static final int REQUEST_MEDIA_PERMISSIONS = 1;
+
+    private static final String[] PERMISSIONS_MEDIA = {
+            Manifest.permission.READ_MEDIA_IMAGES,
+            Manifest.permission.READ_MEDIA_AUDIO,
+            Manifest.permission.READ_MEDIA_VIDEO
     };
-    private GridView gridView;
-    private List<File> imageFiles;
-    private ImageAdapter imageAdapter;
 
-    private User user;
+    private static final String[] LEGACY_PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE
+    };
+
+
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main6);
-        gridView = findViewById(R.id.gridView);
-
-        imageFiles = new ArrayList<>();
-        imageAdapter = new ImageAdapter();
-        gridView.setAdapter(imageAdapter);
-
-        Intent intent = getIntent();
-        if (intent != null){
-            user = (User) intent.getSerializableExtra("usuario");
-            if (user != null ){
-
-            }
-        }
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(MainActivity6.this, "Haz clic en la imagen " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    checkPermissionsAndScanStorage();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
-    private void checkPermissionsAndScanStorage() {
-        // Verificar si se tienen los permisos de almacenamiento
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(MainActivity6.this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            usuario = (User) getArguments().getSerializable("usuario");
+        }
+        // Request permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!hasPermissions(PERMISSIONS_MEDIA)) {
+                requestPermissions(PERMISSIONS_MEDIA, REQUEST_MEDIA_PERMISSIONS);
+            } else {
+                initializeApp(view);
+            }
         } else {
-            // Si los permisos están concedidos, continuar con la exploración del almacenamiento
-            scanStorageForImageFiles();
+            if (!hasPermissions(LEGACY_PERMISSIONS)) {
+                requestPermissions(LEGACY_PERMISSIONS, REQUEST_MEDIA_PERMISSIONS);
+            } else {
+                initializeApp(view);
+            }
         }
     }
 
+    private boolean hasPermissions(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+    private void initializeApp(View view) {
+        // Acceso al disco interno
+        File rutaInterna = new File(System.getenv("EXTERNAL_STORAGE") + "/Download");
+
+        // Gestión de SD
+        String rutaTruncadaInterna = requireContext().getExternalFilesDirs(null)[0].getAbsolutePath()
+                .replace("/Android/data/" + requireContext().getPackageName() + "/files", "/Download");
+        String rutaTruncadaSD = requireContext().getExternalFilesDirs(null)[1].getAbsolutePath()
+                .replace("/Android/data/" + requireContext().getPackageName() + "/files", "/Download");
+
+        File directorio = new File(Environment.getExternalStorageDirectory().getPath() + "/Download");
+        File[] ficheros = directorio.listFiles();
+        Medidas[] medidas = new Medidas[ficheros.length];
+
+        for (int i = 0; i < ficheros.length; i++) {
+            medidas[i] = new Medidas(i, ficheros[i].getName(), ficheros[i]);
+        }
+
+        // Definimos el adaptador para crear la lista
+        ImageAdapter adap = new ImageAdapter(medidas, requireContext());
+        GridView gridView = view.findViewById(R.id.gridView);
+        gridView.setAdapter(adap);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
-            // Verificar si se han concedido los permisos
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Los permisos fueron concedidos, continuar con la lógica de la aplicación
-                scanStorageForImageFiles();
-            } else {
-                // Los permisos fueron denegados, mostrar un mensaje o realizar acciones adicionales
-                Toast.makeText(this, "Los permisos fueron denegados.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
-    private void scanStorageForImageFiles() {
-        File storageDirectory = Environment.getExternalStorageDirectory();
-        imageFiles.clear();
-        scanDirectoryForImageFiles(storageDirectory);
-        imageAdapter.notifyDataSetChanged();
-    }
-
-    private void scanDirectoryForImageFiles(File directory) {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    scanDirectoryForImageFiles(file);
-                } else if (isImageFile(file)) {
-                    imageFiles.add(file);
+        if (requestCode == REQUEST_MEDIA_PERMISSIONS) {
+            boolean allGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allGranted = false;
+                    break;
                 }
             }
-        }
-    }
 
-    private boolean isImageFile(File file) {
-        String fileName = file.getName();
-        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-        return extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")
-                || extension.equalsIgnoreCase("png") || extension.equalsIgnoreCase("gif")
-                || extension.equalsIgnoreCase("bmp");
-    }
-
-    private class ImageAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return imageFiles.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return imageFiles.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
-            if (convertView == null) {
-                imageView = new ImageView(MainActivity6.this);
-                imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (allGranted) {
+                initializeApp(getView());
             } else {
-                imageView = (ImageView) convertView;
+                // Handle the case where permissions are not granted
+                // You might want to show a message to the user and close the app or limit functionality
             }
-            return imageView;
-
         }
     }
 }

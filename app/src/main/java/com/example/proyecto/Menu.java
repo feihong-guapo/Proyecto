@@ -32,7 +32,7 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
 
-        btn = findViewById(R.id.imageButton);
+        btn = findViewById(R.id.imageButton1);
         bottomNav = findViewById(R.id.bottomNavigationView);
 
         bottomNav.setOnNavigationItemSelectedListener(navListener);

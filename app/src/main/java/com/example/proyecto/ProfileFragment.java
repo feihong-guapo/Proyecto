@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.Base64;
 import android.util.Log;
@@ -14,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto.model.User;
 
 import org.json.JSONException;
@@ -31,20 +34,25 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
     private User user;
-    private TextView email;
+    private EditText email;
 
-    private TextView tlf;
+    private CircleImageView img;
+    private EditText tlf;
 
-    private TextView nombre;
+    private EditText nombre;
 
-    private TextView apellidos;
+    private EditText apellidos;
 
-    private TextView codigoPos;
+    private EditText codigoPos;
 
     private ImageView profPh;
+
+    private EditText adress;
 
     private Button changePhoto;
 
@@ -63,10 +71,11 @@ public class ProfileFragment extends Fragment {
         tlf = rootView.findViewById(R.id.phone);
         nombre = rootView.findViewById(R.id.first_name);
         apellidos = rootView.findViewById(R.id.last_name);
-        codigoPos = rootView.findViewById(R.id.postal_code);
+        codigoPos = rootView.findViewById(R.id.city);
         updateUser = rootView.findViewById(R.id.change_password_button);
         changePhoto = rootView.findViewById(R.id.change_photo_button);
-        profPh = rootView.findViewById(R.id.profile_image);
+//        adress = rootView.findViewById(R.id.adress);
+        img = rootView.findViewById(R.id.imagenPerfil);
         Bundle bundle = getArguments();
         if (bundle != null) {
             user = (User) bundle.getSerializable("usuario");
@@ -78,10 +87,12 @@ public class ProfileFragment extends Fragment {
                     apellidos.setText(user.getApellidos());
                     codigoPos.setText(user.getCiudad());
                     String ruta = user.getRutaImg();
-                    new getProfImg().execute(user.getUser_id());
-
-                }
-                catch (Exception e){
+                    adress.setText(user.getDireccion());
+//                    new getProfImg().execute(user.getUser_id());
+                    Glide.with(this)
+                            .load(user.getRutaImg())
+                            .into(img);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -105,15 +116,23 @@ public class ProfileFragment extends Fragment {
 
         return rootView;
 
-
-
     }
+
+
     public void see_photos(){
 
-        Intent intent;
-        intent = new Intent(this.getContext(), MainActivity6.class);
-        intent.putExtra("usuario", user);
-        startActivity(intent);
+        MainActivity6 mainFragment = new MainActivity6();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("usuario", user);
+        mainFragment.setArguments(bundle);
+
+// Replace the current fragment with the new fragment
+        FragmentManager fragmentManager = getParentFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flFragment, mainFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     public void updateUser(){
@@ -125,6 +144,7 @@ public class ProfileFragment extends Fragment {
             json.put("telefono", tlf.getText().toString());
             json.put("ciudad", codigoPos.getText().toString());
             json.put("id_usuario", user.getUser_id());
+            json.put("adress", user.getDireccion());
             new InsertDataTask().execute(json);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -186,75 +206,74 @@ public class ProfileFragment extends Fragment {
         }
 
     }
-    private class getProfImg extends AsyncTask<Integer, Void, String> {
-        @Override
-        protected String doInBackground(Integer... users) {
-            Integer inc = users[0];
-            try {
-                // Create the URL connection
-                URL url = new URL("http://20.90.95.76/getProfPh.php?id=" + inc); // Reemplaza con la URL real de tu servidor
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                conn.setRequestProperty("Accept", "application/json");
-                conn.setDoOutput(true);
-
-                // Create JSON object
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("usuario", inc); // Suponiendo que aquí pasas el usuario como parámetro
-
-                // Send JSON data to the server
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(jsonParam.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
-                // Read the server response
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    response.append(line);
-                }
-                br.close();
-
-                conn.disconnect();
-
-                // Parse the JSON response to get imgCod
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                String imgCod = (String) jsonResponse.get("imgCod");
-                return imgCod;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result != null && !result.isEmpty()) {
-                try {
-                    byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                    profPh.setImageBitmap(bitmap);
-                } catch (IllegalArgumentException e) {
-                    // Handle error if the Base64 string is invalid
-                    Toast.makeText(getContext(), "Invalid Base64 string", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            } else {
-                // Handle error if the result is null or empty
-                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
-            }
-        }
-
-    }
-
-
-
-
-
+//    private class getProfImg extends AsyncTask<Integer, Void, String> {
+//        @Override
+//        protected String doInBackground(Integer... users) {
+//            Integer inc = users[0];
+//            try {
+//                // Create the URL connection
+//                URL url = new URL("http://20.90.95.76/getProfPh.php?id=" + inc); // Reemplaza con la URL real de tu servidor
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("POST");
+//                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+//                conn.setRequestProperty("Accept", "application/json");
+//                conn.setDoOutput(true);
+//
+//                // Create JSON object
+//                JSONObject jsonParam = new JSONObject();
+//                jsonParam.put("usuario", inc); // Suponiendo que aquí pasas el usuario como parámetro
+//
+//                // Send JSON data to the server
+//                OutputStream os = conn.getOutputStream();
+//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+//                writer.write(jsonParam.toString());
+//                writer.flush();
+//                writer.close();
+//                os.close();
+//
+//                // Read the server response
+//                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                StringBuilder response = new StringBuilder();
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    response.append(line);
+//                }
+//                br.close();
+//
+//                conn.disconnect();
+//
+//                // Parse the JSON response to get imgCod
+//                JSONObject jsonResponse = new JSONObject(response.toString());
+//                String imgCod = (String) jsonResponse.get("imgCod");
+//                return imgCod;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            if (result != null && !result.isEmpty()) {
+//                try {
+//                    byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
+//                    Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+//                    profPh.setImageBitmap(bitmap);
+//                } catch (IllegalArgumentException e) {
+//                    // Handle error if the Base64 string is invalid
+//                    Toast.makeText(getContext(), "Invalid Base64 string", Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                // Handle error if the result is null or empty
+//                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_LONG).show();
+//            }
+//        }
 
 }
+
+
+
+
+
+

@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.proyecto.CarDetailFragment;
 import com.example.proyecto.R;
 
@@ -33,6 +35,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public CarAdapter(List<Coche> carList, Context context, User user) {
         this.carList = carList;
         this.context = context;
+        this.user = user;
     }
 
 
@@ -48,6 +51,14 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.modelNameTextView.setText(car.getModelo());
         holder.brandTextView.setText(car.getMarca());
         holder.yearTextView.setText(String.valueOf(car.getPrecioEuros()));
+
+        if (car.getImgs_src() != null) {
+            String rutaComp = car.getImgs_src() + "/1.png";
+            Glide.with(context)
+                    .load(rutaComp)
+                    .into(holder.carImageView);
+        }
+
         //holder.carImageView.setImageResource(getCarImageResource(car.getModelName()));
 
         // Load car image dynamically
@@ -61,7 +72,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
                 // Crear un Bundle para pasar los datos del coche al fragmento
                 Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
                 bundle.putSerializable("coche", selectedCar);
+
 
                 // Crear una instancia del fragmento CarDetailFragment y pasar los datos del coche
                 CarDetailFragment carDetailFragment = new CarDetailFragment();
@@ -110,9 +123,9 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
                 return R.drawable.ic_launcher_background;
         }
     }
+
     public void setCars(List<Coche> carList) {
         this.carList = carList;
         notifyDataSetChanged();
     }
-
 }

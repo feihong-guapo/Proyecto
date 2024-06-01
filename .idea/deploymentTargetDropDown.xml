@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="deploymentTargetDropDown">
-<<<<<<< HEAD
     <targetSelectedWithDropDown>
       <Target>
         <type value="QUICK_BOOT_TARGET" />
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\oscarmornav\.android\avd\Pixel_XL_API_34.avd" />
+            <value value="C:\Users\oscar\.android\avd\Pixel_XL_API_34.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2024-04-12T14:39:14.741070700Z" />
-=======
-    <value>
-      <entry key="app">
-        <State />
-      </entry>
-    </value>
->>>>>>> registro
+    <timeTargetWasSelectedWithDropDown value="2024-06-01T13:45:48.674229300Z" />
   </component>
 </project>

@@ -41,13 +41,17 @@ public class MarketFragment extends Fragment {
     private CarAdapter carAdapter;
     private List<Coche> carList;
     private Spinner brandSpinner;
-    private Spinner modelSpinner;
+    private Spinner typeSpinner;
     private Button applyFilterButton;
     private User user;
 
-    private String[] carBrands = {"Toyota", "Honda", "Ford", "Chevrolet", "Bmw", "Mercedes-Benz"};
-
     private Button ayudame;
+
+    private String[] carBrands = {"", "Peugeot", "Audi", "Bmw", "Volkswagen"};
+    private String[] carTypes = {"", "Urbano", "Deportivo", "Monovolumen", "Berlina", "SUV 4x4", "Ranchera"};
+
+    private JSONObject spinnerData = new JSONObject();
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,49 +62,84 @@ public class MarketFragment extends Fragment {
         }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_market, container, false);
+
+        // Inicializar vistas
         recyclerView = rootView.findViewById(R.id.recyclerView);
         brandSpinner = rootView.findViewById(R.id.brandSpinner);
+        typeSpinner = rootView.findViewById(R.id.typeSpinner);
         applyFilterButton = rootView.findViewById(R.id.applyFilterButton);
         carList = new ArrayList<>();
         carAdapter = new CarAdapter(carList, getContext(), user);
         ayudame = rootView.findViewById(R.id.button5);
+
+        // Configurar el RecyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(carAdapter);
+
+        // Configurar el adaptador para el spinner de marcas de coches
+        ArrayAdapter<String> brandAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, carBrands);
+        brandAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        brandSpinner.setAdapter(brandAdapter);
+
+        // Configurar el adaptador para el spinner de tipos de coches
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, carTypes);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
+
+        DataFormManager.getInstance().saveData("user_id", String.valueOf(user.getUser_id()));
+        try {
+            spinnerData.put("marca", null);
+            spinnerData.put("id", null);
+            spinnerData.put("typeCar", null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Configurar el botón de ayuda
         ayudame.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 next();
             }
         });
+
+        // Configurar el botón para aplicar filtros
         applyFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Configurar el RecyclerView
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(carAdapter);
-
-                // Configurar el adaptador para el spinner de marcas de coches
-                ArrayAdapter<String> brandAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, carBrands);
-                brandAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                brandSpinner.setAdapter(brandAdapter);
-
-                // Aplicar el fil
-                applyFiltr();
+                // Aplicar el filtro
+                try {
+                    applyFiltr();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
+        new GetFilteredResultTask().execute(spinnerData);
+
         return rootView;
     }
+
     public void next() {
         Intent intent = new Intent(getActivity(), Form1.class);
+        intent.putExtra("usuario", user);
         startActivity(intent);
     }
-    public void applyFiltr() {
-        String selectedBrand = brandSpinner.getSelectedItem().toString();
 
-        JSONObject spinnerData = new JSONObject();
-        try {
-            spinnerData.put("marca", "Bmw");
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public void applyFiltr() throws JSONException {
+        String selectedBrand = brandSpinner.getSelectedItem().toString();
+        String carType = typeSpinner.getSelectedItem().toString();
+        if (!carType.equals("")) {
+            spinnerData.put("typeCar", carType);
+        }
+        else{
+            spinnerData.put("typeCar", null);
+        }
+        if (!selectedBrand.equals("")) {
+            spinnerData.put("marca", selectedBrand);
+        }        else{
+            spinnerData.put("marca", null);
         }
 
         new GetFilteredResultTask().execute(spinnerData);
@@ -112,7 +151,7 @@ public class MarketFragment extends Fragment {
             JSONArray response = null;
             try {
                 JSONObject params = jsonObjects[0];
-                String url = "http://20.90.95.76/getOferts.php";
+                String url = "http://20.90.95.76/getCarsWlikes.php" + "?id_user=" + user.getUser_id();
                 URL apiUrl = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
                 connection.setRequestMethod("POST");
@@ -149,7 +188,6 @@ public class MarketFragment extends Fragment {
 
         @Override
         protected void onPostExecute(JSONArray result) {
-
             super.onPostExecute(result);
             if (result != null) {
                 try {
@@ -173,6 +211,5 @@ public class MarketFragment extends Fragment {
                 // Manejar el caso en que el JSONArray result sea null
             }
         }
-
     }
 }

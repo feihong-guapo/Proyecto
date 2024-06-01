@@ -4,6 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Optional;
+//import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.Motor;
 
 public class Coche implements Serializable {
 
@@ -23,6 +26,18 @@ public class Coche implements Serializable {
     private double precioEuros;
 
     private boolean liked;
+
+    private String imgs_src;
+
+    private int id_concesionario;
+
+    public String getImgs_src() {
+        return imgs_src;
+    }
+
+    public void setImgs_src(String imgs_src) {
+        this.imgs_src = imgs_src;
+    }
 
     public int getId_coche() {
         return id_coche;
@@ -60,9 +75,9 @@ public class Coche implements Serializable {
         return motor;
     }
 
-    public void setMotor(Motor motor) {
-        this.motor = motor;
-    }
+//    public void setMotor(Motor motor) {
+//        this.motor = motor;
+//    }
 
     public int getIdTamano() {
         return idTamano;
@@ -144,6 +159,17 @@ public class Coche implements Serializable {
         this.precioEuros = precioEuros;
     }
 
+    public void setMotor(Motor motor) {
+        this.motor = motor;
+    }
+
+    public int getId_concesionario() {
+        return id_concesionario;
+    }
+
+    public void setId_concesionario(int id_concesionario) {
+        this.id_concesionario = id_concesionario;
+    }
 
     public void setDataJson(JSONObject json) throws JSONException {
 
@@ -159,6 +185,9 @@ public class Coche implements Serializable {
         this.longitudCm = json.optDouble("longitud_cm");
         this.maleteroL = json.optDouble("maletero_l");
         this.precioEuros = json.optDouble("precio_euros");
+        this.imgs_src = json.optString("car_images", null);
+        this.id_concesionario = json.optInt("id_concesionario");
+
 
 
         if( json.getInt("es_favorito")== 1){

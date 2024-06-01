@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.proyecto.model.Coche;
+import com.example.proyecto.model.DataFormManager;
+import com.example.proyecto.model.User;
 
 public class CarDetailActivity extends AppCompatActivity {
     @Override
@@ -18,8 +20,10 @@ public class CarDetailActivity extends AppCompatActivity {
         if (selectedCar != null) {
             // Crear una instancia del fragmento y pasar los datos
             CarDetailFragment2 carDetailFragment = new CarDetailFragment2();
+            User createdUser = DataFormManager.getInstance().getUser();
             Bundle bundle = new Bundle();
             bundle.putSerializable("coche", selectedCar);
+            bundle.putSerializable("usuario", createdUser);
             carDetailFragment.setArguments(bundle);
 
             // Iniciar la transacción del fragmento
