@@ -96,7 +96,7 @@ public class CarDetailFragment2 extends Fragment {
         // Obtener los datos del Argumento
         Bundle arguments = getArguments();
         if (arguments != null) {
-            user = (User) arguments.getSerializable("user");
+            user = (User) arguments.getSerializable("usuario");
             coche = (Coche) arguments.getSerializable("coche");
             String modelName = arguments.getString("modelName");
 //            String brand = arguments.getString("brand");
