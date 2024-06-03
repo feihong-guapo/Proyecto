@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="naranja">#F56A2E</color>
     <color name="orange">#ff8000</color>
+    <color name="orangetrnsp">#BFff8000</color>
     <color name="blue">#007ADE</color>
+    <color name="blue_transparent">#20007ADE</color>
     <color name="naranja_transparente">#BFF56A2E</color>
 </resources>

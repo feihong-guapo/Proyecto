@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-  
+    <!-- Estado cuando el botón es presionado -->
+    <item android:color="@color/blue" android:state_pressed="true"/>
+
+    <!-- Estado por defecto -->
+    <item android:color="@color/orange"/>
 </selector>

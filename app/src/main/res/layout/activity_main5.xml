@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/blue_transparent"
+
     tools:context=".MainActivity5">
 
         <ImageView
@@ -20,9 +21,9 @@
 
         <ImageButton
             android:id="@+id/imageButton6"
-            android:layout_width="181dp"
-            android:layout_height="228dp"
-            android:background="#FFFFFF"
+            android:layout_width="179dp"
+            android:layout_height="479dp"
+            android:background="@color/blue_transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.095"
@@ -33,9 +34,9 @@
 
         <ImageButton
             android:id="@+id/imageButton7"
-            android:layout_width="181dp"
-            android:layout_height="228dp"
-            android:background="#FFFFFF"
+            android:layout_width="180dp"
+            android:layout_height="482dp"
+            android:background="@color/blue_transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.938"
